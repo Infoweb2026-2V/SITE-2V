@@ -10,7 +10,13 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-      <nav class="navbar">
+    <div id="scroll-progress"></div>
+
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar">
         <div class="nav-container">
             <a href="#inicio" class="logo">
                 <i class="fa-solid fa-code-branch"></i> 2V<span>.info</span>
@@ -18,6 +24,7 @@
             <ul class="nav-links">
                 <li><a href="#inicio" class="active">Início</a></li>
                 <li><a href="#curso">O Curso</a></li>
+                <li><a href="#estatisticas">Números</a></li>
                 <li><a href="#projetos">Projetos</a></li>
                 <li><a href="#tecnologias">Tecnologias</a></li>
                 <li><a href="#contato">Contato</a></li>
@@ -38,11 +45,13 @@
 
     <main>
         <section id="inicio" class="hero">
+            <div id="particles-container"></div>
+            
             <div class="hero-content">
 
                 <img src="img/2V.png" alt="Logo da Turma 2V" class="hero-logo">
 
-                <div class="badge"><i class="fa-solid fa-location-dot"></i> IFRN Campus Caicó</div>
+                <div class="badge"><i class="fa-solid fa-location-dot pulse-icon"></i> IFRN Campus Caicó</div>
                 <h1>A Turma do <span class="highlight">Futuro</span></h1>
                 <div class="typing-container">
                     <p>1º Ano de <span id="typing-text"></span><span class="cursor">|</span></p>
@@ -62,22 +71,48 @@
                 </div>
 
                 <div class="curso-grid">
-                    <div class="curso-card reveal">
+                    <div class="curso-card reveal tilt-element">
                         <i class="fa-solid fa-laptop-code"></i>
                         <h3>O que é?</h3>
                         <p>O curso técnico integrado prepara os alunos para o desenvolvimento de sistemas web, unindo o ensino médio à formação profissional tecnológica de excelência oferecida pelo IFRN.</p>
                     </div>
 
-                    <div class="curso-card reveal" style="transition-delay: 0.1s;">
+                    <div class="curso-card reveal tilt-element" style="transition-delay: 0.1s;">
                         <i class="fa-solid fa-layer-group"></i>
                         <h3>O que aprendemos?</h3>
                         <p>Dominamos a criação de interfaces (Front-end), regras de negócio (Back-end), modelagem de banco de dados, design de interação (UI/UX) e redes de computadores.</p>
                     </div>
 
-                    <div class="curso-card reveal" style="transition-delay: 0.2s;">
+                    <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
                         <i class="fa-solid fa-user-rocket"></i>
                         <h3>Nosso Perfil</h3>
                         <p>Formamos profissionais capazes de atuar em agências de tecnologia, startups e grandes empresas, sempre focados em resolver problemas reais através do raciocínio lógico e da inovação.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="estatisticas" class="estatisticas">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Nossos <span class="highlight">Números</span></h2>
+                    <p>A turma 2V em dados</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card reveal tilt-element">
+                        <i class="fa-solid fa-users"></i>
+                        <h3 class="counter" data-target="40">0</h3>
+                        <p>Quantos Alunos?</p>
+                    </div>
+                    <div class="stat-card reveal tilt-element" style="transition-delay: 0.1s;">
+                        <i class="fa-solid fa-code"></i>
+                        <h3 class="counter" data-target="0">0</h3>
+                        <p>Linhas de Código</p>
+                    </div>
+                    <div class="stat-card reveal tilt-element" style="transition-delay: 0.2s;">
+                        <i class="fa-solid fa-user"></i>
+                        <h3 class="counter" data-target="999">0</h3>
+                        <p>Resenhas Feitas</p>
                     </div>
                 </div>
             </div>
@@ -119,7 +154,7 @@
                 </div>
 
                 <div class="contato-grid">
-                    <div class="contato-card reveal">
+                    <div class="contato-card reveal tilt-element">
                         <div class="card-header">
                             <i class="fa-solid fa-building-columns"></i>
                             <h3>Instituição</h3>
@@ -134,7 +169,7 @@
                         </div>
                     </div>
 
-                    <div class="contato-card reveal" style="transition-delay: 0.1s;">
+                    <div class="contato-card reveal tilt-element" style="transition-delay: 0.1s;">
                         <div class="card-header">
                             <i class="fa-solid fa-users"></i>
                             <h3>Pessoal (Turma 2V)</h3>
@@ -164,6 +199,10 @@
             <p>© <span id="ano"></span> - Feito pela turma<a href="https://github.com/infoWeb2026-2V"> InfoWeb2026.2V</a> Com Carinho</p>
         </div>
     </footer>
+
+    <a href="#inicio" id="back-to-top" class="back-to-top" aria-label="Voltar ao topo">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>
 
     <script src="scripts/script.js"></script>
 </body>
