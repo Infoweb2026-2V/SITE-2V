@@ -171,11 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // =========================================================
-    // NOVAS FUNCIONALIDADES INTEGRADAS
-    // =========================================================
-
+    
     // 10. Scroll Progress Bar (Barra de progresso de leitura)
     const scrollProgress = document.getElementById('scroll-progress');
     
