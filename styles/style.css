@@ -214,6 +214,13 @@ section { padding: 100px 0; }
     line-height: 1.7;
 }
 
+.lider-nome {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 10px;
+    font: 'poppins', sans-serif;
+}
 
 .empty-state {
     text-align: center;
@@ -517,10 +524,6 @@ body.light-theme .back-to-top:hover {
     background-color: var(--accent);
     color: #FFFFFF;
 }
-
-/* ====================================================
-   NOVOS ESTILOS EXTRAS ADICIONADOS
-==================================================== */
 
 /* --- Custom Scrollbar (Barra de rolagem estilizada) --- */
 ::-webkit-scrollbar {
