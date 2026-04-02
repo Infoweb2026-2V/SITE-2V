@@ -1,11 +1,10 @@
-/* --- Paleta de Cores Rigorosa --- */
 :root {
-    --bg-base: #04080F;      /* Fundo principal */
-    --bg-surface: #0A1421;   /* Fundo secundário */
-    --bg-card: #122438;      /* Cards */
-    --accent: #455A64;       /* Destaques e bordas */
+    --bg-base: #19004B;      /* Roxo escuro (Fundo principal) */
+    --bg-surface: #240a5e;   /* Variação do roxo escuro para profundidade */
+    --bg-card: #8B5EDD;      /* Roxo claro (Cards e superfícies) */
+    --accent: #CEBDEC;       /* Roxo claro ao quadrado (Destaques e bordas) */
     --text-main: #FFFFFF;    /* Texto base */
-    --text-muted: #9BA9B4;   /* Texto secundário */
+    --text-muted: #CEBDEC;   /* Texto secundário */
     --shadow: #000000;       /* Sombras */
 }
 
@@ -37,7 +36,8 @@ a { text-decoration: none; color: inherit; }
     transform: translateX(-50%);
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(69, 90, 100, 0.2) 0%, rgba(4, 8, 15, 0) 70%);
+    /* Atualizado para usar o Roxo Claro ao Quadrado no glow */
+    background: radial-gradient(circle, rgba(206, 189, 236, 0.15) 0%, rgba(25, 0, 75, 0) 70%);
     z-index: -1;
     pointer-events: none;
 }
@@ -50,10 +50,10 @@ a { text-decoration: none; color: inherit; }
     transform: translateX(-50%);
     width: 90%;
     max-width: 800px;
-    background: rgba(10, 20, 33, 0.8);
+    background: rgba(25, 0, 75, 0.8); /* Ajustado para o roxo escuro */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(69, 90, 100, 0.4);
+    border: 1px solid rgba(206, 189, 236, 0.3);
     border-radius: 40px;
     z-index: 1000;
     padding: 12px 30px;
@@ -97,7 +97,7 @@ a { text-decoration: none; color: inherit; }
 
 .btn-theme:hover {
     color: var(--accent);
-    background-color: rgba(69, 90, 100, 0.1);
+    background-color: rgba(206, 189, 236, 0.1);
 }
 
 .btn-theme i {
@@ -122,7 +122,7 @@ a { text-decoration: none; color: inherit; }
     height: auto;
     margin: 0 auto 25px auto;
     display: block;
-    filter: drop-shadow(0 0 20px rgba(69, 90, 100, 0.6));
+    filter: drop-shadow(0 0 20px rgba(139, 94, 221, 0.6));
     animation: float 5s ease-in-out infinite;
 }
 
@@ -156,12 +156,12 @@ a { text-decoration: none; color: inherit; }
 
 .btn-primary { background-color: var(--text-main); 
                color: var(--bg-base); }
-               
-.btn-primary:hover { background-color: var(--accent); color: var(--text-main); transform: translateY(-2px); }
+
+.btn-primary:hover { background-color: var(--accent); color: var(--bg-base); transform: translateY(-2px); }
 
 .btn-outline { background-color: transparent; border: 1px solid var(--accent); color: var(--text-main); }
 
-.btn-outline:hover { background-color: var(--bg-card); }
+.btn-outline:hover { background-color: var(--bg-card); color: var(--bg-base); }
 
 
 section { padding: 100px 0; }
@@ -193,7 +193,7 @@ section { padding: 100px 0; }
 .curso-card:hover {
     transform: translateY(-8px);
     border-color: var(--accent);
-    background-color: var(--bg-card);
+    background-color: var(--bg-surface); /* Ajustado para não sumir o conteúdo com roxo claro */
 }
 
 .curso-card i {
@@ -219,7 +219,7 @@ section { padding: 100px 0; }
     font-weight: 700;
     color: var(--accent);
     margin-top: 10px;
-    font: 'poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .empty-state {
@@ -227,7 +227,7 @@ section { padding: 100px 0; }
     padding: 60px 20px;
     border: 2px dashed var(--accent);
     border-radius: 16px;
-    background-color: rgba(18, 36, 56, 0.3);
+    background-color: rgba(139, 94, 221, 0.1);
     max-width: 700px;
     margin: 0 auto;
 }
@@ -245,8 +245,8 @@ section { padding: 100px 0; }
 }
 
 .contato-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--bg-card);
+    background-color: var(--bg-base);
+    border: 1px solid var(--bg-surface);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 10px 30px var(--shadow);
@@ -256,12 +256,12 @@ section { padding: 100px 0; }
 .contato-card:hover { transform: translateY(-5px); border-color: var(--accent); }
 
 .card-header {
-    background-color: var(--bg-card);
+    background-color: var(--bg-surface);
     padding: 20px;
     display: flex;
     align-items: center;
     gap: 15px;
-    border-bottom: 1px solid rgba(69, 90, 100, 0.2);
+    border-bottom: 1px solid rgba(206, 189, 236, 0.2);
 }
 .card-header i { font-size: 1.5rem; color: var(--accent); }
 
@@ -279,7 +279,7 @@ section { padding: 100px 0; }
 
 .link-destaque:hover { color: var(--accent); }
 
-.social-links-pessoal { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; border-top: 1px solid var(--bg-card); padding-top: 20px; }
+.social-links-pessoal { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; border-top: 1px solid var(--bg-surface); padding-top: 20px; }
 
 .social-links-pessoal a { color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.3s; font-weight: 500; }
 
@@ -287,7 +287,7 @@ section { padding: 100px 0; }
 
 .social-links-pessoal i { color: var(--accent); font-size: 1.2rem; }
 
-footer { padding: 30px 0; text-align: center; border-top: 1px solid var(--bg-card); background-color: var(--bg-base); }
+footer { padding: 30px 0; text-align: center; border-top: 1px solid var(--bg-surface); background-color: var(--bg-base); }
 
 .footer-logo { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; }
 
@@ -303,13 +303,13 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
 /* --- Responsividade --- */
 @media (max-width: 850px) {
     .navbar { width: 92%; padding: 12px 20px; }
-    
+
     .nav-links {
         position: absolute; 
-        top: calc(100% + 10px); /* Espaço entre a navbar e o menu */
+        top: calc(100% + 10px); 
         left: 0; 
         width: 100%;
-        background: rgba(10, 20, 33, 0.95);
+        background: rgba(25, 0, 75, 0.95);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         flex-direction: column; 
@@ -321,18 +321,18 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
-        border: 1px solid rgba(69, 90, 100, 0.4);
+        border: 1px solid rgba(206, 189, 236, 0.4);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     }
 
     .nav-links.show { max-height: 400px; opacity: 1; visibility: visible; }
-    
+
     .nav-links li { padding: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-    
+
     .nav-links li:last-child { border-bottom: none; }
-    
+
     .nav-links a { display: block; padding: 16px 20px; }
-    
+
     .menu-mobile { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
 }
 
@@ -346,23 +346,22 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
 }
 
 body.light-theme {
-
     --bg-base: #F4F7F9;
     --bg-surface: #E6EDF2;
     --bg-card: #FFFFFF;      
-    --accent: #2C3E50;  
+    --accent: #19004B;  /* Invertendo para usar o roxo escuro como destaque no light mode */
     --text-main: #1A2530;    
     --text-muted: #64748B;   
     --shadow: rgba(0, 0, 0, 0.08); 
 }
 
 body.light-theme .bg-glow {
-    background: radial-gradient(circle, rgba(44, 62, 80, 0.15) 0%, rgba(244, 247, 249, 0) 70%);
+    background: radial-gradient(circle, rgba(139, 94, 221, 0.15) 0%, rgba(244, 247, 249, 0) 70%);
 }
 
 body.light-theme .navbar {
     background: rgba(230, 237, 242, 0.85);
-    border-color: rgba(44, 62, 80, 0.15);
+    border-color: rgba(25, 0, 75, 0.15);
 }
 
 body.light-theme .empty-state {
@@ -379,10 +378,10 @@ body.light-theme .btn-outline:hover {
 @media (max-width: 850px) {
     body.light-theme .nav-links {
         background: rgba(230, 237, 242, 0.95);
-        border-color: rgba(44, 62, 80, 0.15);
+        border-color: rgba(25, 0, 75, 0.15);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     }
-    
+
     body.light-theme .nav-links li {
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
@@ -441,7 +440,7 @@ body.light-theme .btn-outline:hover {
     background-color: var(--bg-base);
     padding: 40px 30px;
     border-radius: 16px;
-    border: 1px solid var(--bg-card);
+    border: 1px solid var(--bg-surface);
     box-shadow: 0 5px 15px var(--shadow);
     transition: transform 0.3s, border-color 0.3s;
 }
@@ -475,7 +474,7 @@ body.light-theme .btn-outline:hover {
 
 body.light-theme .stat-card {
     background-color: var(--bg-card);
-    border-color: rgba(44, 62, 80, 0.1);
+    border-color: rgba(25, 0, 75, 0.1);
 }
 
 body.light-theme .stat-card:hover {
@@ -512,7 +511,7 @@ body.light-theme .stat-card:hover {
 .back-to-top:hover {
     transform: translateY(-5px);
     background-color: var(--accent);
-    color: #FFFFFF;
+    color: var(--bg-base);
 }
 
 body.light-theme .back-to-top {
@@ -533,7 +532,7 @@ body.light-theme .back-to-top:hover {
     background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-    background: var(--bg-card);
+    background: var(--bg-surface);
     border: 1px solid var(--accent);
     border-radius: 5px;
 }
