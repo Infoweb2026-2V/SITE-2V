@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // 1. Efeito de Digitação (Typing Effect)
     const textElement = document.getElementById('typing-text');
     const words = ["Informática.", "Inovação.", "Tecnologia.", "Código."];
@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function typeEffect() {
         if (!textElement) return;
-        
+
         const currentWord = words[wordIndex];
-        
+
         if (isDeleting) {
             textElement.textContent = currentWord.substring(0, charIndex - 1);
             charIndex--;
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(typeEffect, typeSpeed);
     }
-    
+
     setTimeout(typeEffect, 500);
 
     // 2. Menu Mobile Responsivo (Botão Hambúrguer)
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Tema Claro/Escuro (Light/Dark Mode)
     const themeToggleBtn = document.getElementById('theme-toggle');
-    
+
     if (themeToggleBtn) { 
         const themeIcon = themeToggleBtn.querySelector('i');
 
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
-            
+
             if (document.body.classList.contains('light-theme')) {
                 themeIcon.classList.replace('fa-moon', 'fa-sun');
                 localStorage.setItem('theme', 'light');
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const updateCount = () => {
                         const target = +counter.getAttribute('data-target');
                         const count = +counter.innerText;
-                        
+
                         const speed = 50; 
                         const inc = target / speed; 
 
@@ -171,10 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     // 10. Scroll Progress Bar (Barra de progresso de leitura)
     const scrollProgress = document.getElementById('scroll-progress');
-    
+
     if (scrollProgress) {
         window.addEventListener('scroll', () => {
             const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -188,26 +188,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function createParticles() {
         const container = document.getElementById('particles-container');
         if (!container) return;
-        
+
         const particleCount = 25; // Quantidade de partículas
-        
+
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            
+
             // Tamanho aleatório entre 2px e 6px
             const size = Math.random() * 4 + 2;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
-            
+
             // Posição inicial aleatória
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.top = `${Math.random() * 100 + 20}vh`;
-            
+
             // Velocidade e atraso aleatórios
             particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
             particle.style.animationDelay = `${Math.random() * 5}s`;
-            
+
             container.appendChild(particle);
         }
     }
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 12. Efeito 3D (Tilt) Interativo nos Cards
     const tiltCards = document.querySelectorAll('.tilt-element');
-    
+
     // Só aplica o efeito em telas maiores (Desktop) para evitar conflito com touch
     if (window.matchMedia("(min-width: 850px)").matches) {
         tiltCards.forEach(card => {
@@ -223,13 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top; 
-                
+
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
+
                 const rotateX = ((y - centerY) / centerY) * -8; 
                 const rotateY = ((x - centerX) / centerX) * 8;
-                
+
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
             });
 
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
                 card.style.transition = 'transform 0.5s ease';
             });
-            
+
             card.addEventListener('mouseenter', () => {
                 card.style.transition = 'none'; 
             });
