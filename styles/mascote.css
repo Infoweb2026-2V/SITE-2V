@@ -39,6 +39,7 @@
     flex: 1;
     min-width: 250px;
     text-align: center;
+    position: relative;
 }
 
 /* ESPAÇO PARA SUA ANIMAÇÃO CSS DO MASCOTE - COLE AQUI DEPOIS */
@@ -51,6 +52,19 @@
     transition: all 0.3s ease;
     cursor: pointer;
 }
+
+/* EXEMPLO DE ANIMAÇÃO (VOCÊ PODE SUBSTITUIR PELA SUA) */
+/* 
+.mascote-flutuante {
+    animation: flutuarMascote 3s ease-in-out infinite;
+}
+
+@keyframes flutuarMascote {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+*/
 
 .mascote-flutuante:active {
     transform: scale(0.95);
@@ -153,6 +167,12 @@
     transform: scale(0.95);
 }
 
+.btn-mascote:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* Animações para quando ganha carinho */
 @keyframes coracaoVoa {
     0% {
@@ -172,6 +192,70 @@
     pointer-events: none;
     z-index: 9999;
     animation: coracaoVoa 1s ease-out forwards;
+}
+
+/* ========== BARRA DE PROGRESSO DOS CARINHOS ========== */
+.progresso-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.progresso-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.progresso-bar {
+    width: 100%;
+    height: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progresso-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #764ba2);
+    border-radius: 20px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+/* Quando atinge o limite */
+.limite-atingido .mascote-flutuante {
+    filter: drop-shadow(0 0 20px gold);
+    animation: brilhoLimite 1s ease-in-out infinite alternate;
+}
+
+@keyframes brilhoLimite {
+    from { filter: drop-shadow(0 0 10px gold); }
+    to { filter: drop-shadow(0 0 30px orange); }
+}
+
+/* Medalha de conquista */
+.medalha-conquista {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: gold;
+    color: #333;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    animation: girarMedalha 0.5s ease;
+}
+
+@keyframes girarMedalha {
+    from { transform: rotate(0deg) scale(0); }
+    to { transform: rotate(360deg) scale(1); }
 }
 
 /* Tema claro */
