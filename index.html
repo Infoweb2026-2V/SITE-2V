@@ -79,7 +79,7 @@
                         <p>Dominamos a criação de interfaces (Front-end), regras de negócio (Back-end), modelagem de banco de dados, design de interação (UI/UX) e redes de computadores.</p>
                     </div>
                     <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-user-rocket"></i>
                         <h3>Nosso Perfil</h3>
                         <p>Formamos profissionais capazes de atuar em agências de tecnologia, startups e grandes empresas, sempre focados em resolver problemas reais através do raciocínio lógico e da inovação.</p>
                     </div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="stat-card reveal tilt-element" style="transition-delay: 0.1s;">
                         <i class="fa-solid fa-code"></i>
-                        <h3 class="counter" data-target="0">0</h3>
+                        <h3 class="counter" data-target="15234">0</h3>
                         <p>Linhas de Código</p>
                     </div>
                     <div class="stat-card reveal tilt-element" style="transition-delay: 0.2s;">
@@ -150,11 +150,6 @@
                         <i class="fa-solid fa-pen-ruler"></i>
                         <h3>Coordenador de Design</h3>
                         <div class="lider-nome">Kleber</div>
-                    </div>
-                    <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
-                        <i class="fa-solid fa-laptop-code"></i>
-                        <h3>Coordenador de ajuda tecnica</h3>
-                        <div class="lider-nome">Jonas Rhian (jojo)</div>
                     </div>
                     <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
                         <i class="fa-solid fa-clock"></i>
@@ -240,22 +235,35 @@
                 <h2 class="mascote-title">🐾 <span>Nosso Mascote</span> 🤖</h2>
                 <div class="mascote-wrapper">
                     <div class="mascote-imagem">
-                        <img src="img/Mascote.png" alt="Mascote da Turma 2V" class="mascote-flutuante" id="mascoteImg">
+                        <img src="img/mascote.png" alt="Mascote da Turma 2V" class="mascote-flutuante" id="mascoteImg">
                         <p class="mascote-clique">✨ Clique no mascote! ✨</p>
                     </div>
                     <div class="mascote-info">
                         <h3>Conheça nosso mascote!</h3>
-                        <p>Ele representa a energia, criatividade e inovação da turma 2V. Sempre pronto para novos furtos no mundo da tecnologia🔫🔫!</p>
+                        <p>Ele representa a energia, criatividade e inovação da turma 2V. Sempre pronto para novos desafios no mundo da tecnologia!</p>
+                        
                         <div class="mascote-stats">
                             <div class="mascote-stat">
                                 <i class="fa-solid fa-heart"></i>
-                                <span id="mascote-likes">0</span> carinhos
+                                <span id="mascote-likes">0</span> / 1.000.000 carinhos
                             </div>
                             <div class="mascote-stat">
                                 <i class="fa-solid fa-comment"></i>
                                 <span id="mascote-mensagens">0</span> mensagens
                             </div>
                         </div>
+
+                        <!-- Barra de progresso -->
+                        <div class="progresso-container">
+                            <div class="progresso-label">
+                                <span><i class="fa-solid fa-chart-line"></i> Progresso para 1 MILHÃO</span>
+                                <span id="progresso-texto">0 / 1.000.000</span>
+                            </div>
+                            <div class="progresso-bar">
+                                <div class="progresso-fill" id="progresso-fill"></div>
+                            </div>
+                        </div>
+
                         <button id="darCarinhoBtn" class="btn-mascote">
                             <i class="fa-solid fa-heart"></i> Dar carinho
                         </button>
