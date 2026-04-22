@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tags para SEO / Social -->
+    <meta name="description" content="Site oficial da turma 2V do curso de Informática para Internet do IFRN Campus Caicó. Conheça nossos projetos, equipe e novidades!">
+    <meta property="og:title" content="Turma 2V | InfoWeb IFRN Caicó">
+    <meta property="og:description" content="A turma do futuro. Formando desenvolvedores web no sertão potiguar.">
+    <meta property="og:image" content="https://infoweb-2v.vercel.app/img/2V.png">
+    <meta property="og:url" content="https://infoweb-2v.vercel.app">
+    <meta name="twitter:card" content="summary_large_image">
+    
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <title>Turma 2V | 1º Ano Informática IFRN</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -26,10 +35,14 @@
                 <li><a href="#inicio" class="active">Início</a></li>
                 <li><a href="#curso">O Curso</a></li>
                 <li><a href="#estatisticas">Números</a></li>
+                <li><a href="#lideres">Líderes</a></li>
+                <li><a href="#coordenadores">Coord.</a></li>
+                <li><a href="#horarios">Horários</a></li>
+                <li><a href="#galeria">Galeria</a></li>
                 <li><a href="#projetos">Projetos</a></li>
-                <li><a href="#tecnologias">Tecnologias</a></li>
+                <li><a href="#mural">Mural</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a href="#mascote">Nosso Mascote</a></li>
+                <li><a href="#mascote">Mascote</a></li>
             </ul>
 
             <button id="theme-toggle" class="btn-theme" aria-label="Alternar tema">
@@ -58,6 +71,13 @@
                     <a href="#curso" class="btn btn-primary">Conheça o Curso</a>
                     <a href="#contato" class="btn btn-outline">Fale Conosco</a>
                 </div>
+                
+                <!-- Frase do Dia -->
+                <div class="frase-do-dia reveal">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p id="frase-texto">Carregando frase inspiradora...</p>
+                    <span id="frase-autor"></span>
+                </div>
             </div>
         </section>
 
@@ -79,7 +99,7 @@
                         <p>Dominamos a criação de interfaces (Front-end), regras de negócio (Back-end), modelagem de banco de dados, design de interação (UI/UX) e redes de computadores.</p>
                     </div>
                     <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
-                        <i class="fa-solid fa-user-rocket"></i>
+                        <i class="fa-solid fa-user"></i>
                         <h3>Nosso Perfil</h3>
                         <p>Formamos profissionais capazes de atuar em agências de tecnologia, startups e grandes empresas, sempre focados em resolver problemas reais através do raciocínio lógico e da inovação.</p>
                     </div>
@@ -106,7 +126,7 @@
                     </div>
                     <div class="stat-card reveal tilt-element" style="transition-delay: 0.2s;">
                         <i class="fa-solid fa-user"></i>
-                        <h3 class="counter" data-target="999">0</h3>
+                        <h3 class="counter" data-target=3142>0</h3>
                         <p>Resenhas Feitas</p>
                     </div>
                 </div>
@@ -152,6 +172,11 @@
                         <div class="lider-nome">Kleber</div>
                     </div>
                     <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
+                        <i class="fa-solid fa-user"></i>
+                        <h3>Coordenador de ajuda Tecníca</h3>
+                        <div class="lider-nome">Jonas Rhian (jojo)</div>
+                    </div>
+                    <div class="curso-card reveal tilt-element" style="transition-delay: 0.2s;">
                         <i class="fa-solid fa-clock"></i>
                         <h3>Em breve</h3>
                         <div class="lider-nome">Novo coordenador em breve...</div>
@@ -160,16 +185,121 @@
             </div>
         </section>
 
+        <!-- NOVA SEÇÃO: Quadro de Horários -->
+        <section id="horarios" class="horarios">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Quadro de <span class="highlight">Horários</span></h2>
+                    <p>Nossa rotina semanal</p>
+                </div>
+                <div class="table-responsive reveal">
+                    <table class="tabela-horarios">
+                        <thead>
+                            <tr>
+                                <th>Horário</th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>13:00 - 13:45</td>
+                                <td>Quimica</td>
+                                <td>Matemática I</td>
+                                <td>Introdução a logica e programação</td>
+                                <td>Filosofia I</td>
+                                <td>Educação em tecnologias digitais</td>
+                            </tr>
+                            <tr>
+                                <td>13:45 - 14:30</td>
+                                <td>Quimica</td>
+                                <td>Matemática I</td>
+                                <td>Introdução a logica e programação</td>
+                                <td>Filosofia I</td>
+                                <td>Educação em tecnologias digitais</td>
+                            </tr>
+                            <tr>
+                              <td>14:30 - 14:50</td>
+                              <td colspan="5" class="intervalo">I Intervalo</td>
+                            </tr>
+                            <tr>
+                                <td>14:50 - 15:35</td>
+                                <td>Geografia I</td>
+                                <td>Geografia I</td>
+                                <td>Quimica</td>
+                                <td>Português e Literatura</td>
+                                <td>Português e Literatura</td>
+                            </tr>
+                            <tr>
+                                <td>15:35 - 16:20</td>
+                                <td>Geografia I</td>
+                                <td>Geografia I</td>
+                                <td>Quimica</td>
+                                <td>Português e Literatura</td>
+                                <td>Português e Literatura</td>
+                            </tr>
+                            <tr>
+                              <td>16:20 - 16:30</td>
+                              <td colspan="5" class="intervalo">II Intervalo</td>
+                            </tr>
+                            <tr>
+                                <td>16:30 - 17:15</td>
+                                <td>Matemática I</td>
+                                <td>Introdução a logica e programação</td>
+                                <td>Educação Fisíca</td>
+                                <td>Principios de Design</td>
+                                <td>Autoria Web</td>
+                            </tr>
+                            <tr>
+                                <td>17:15 - 18:00</td>
+                                <td>Matemática I</td>
+                                <td>Introdução a logica e programação</td>
+                                <td>Educação Fisíca</td>
+                                <td>Principios de Design</td>
+                                <td>Autoria Web</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="horario-legenda reveal"><i class="fa-regular fa-calendar"></i> Horário sujeito a alterações. Consulte o <a href="https://suap.ifrn.edu.br/" target="_blank">SUAP</a> para versão oficial.</p>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: Galeria da Turma -->
+        <section id="galeria" class="galeria">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Galeria da <span class="highlight">Turma</span></h2>
+                    <p>Momentos que construímos juntos</p>
+                </div>
+                <div class="galeria-grid">
+                    <div class="galeria-item reveal">
+                        <img src="img/turma01.jpg" alt="Foto da turma 1" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lightbox Modal -->
+            <div id="lightbox" class="lightbox">
+                <span class="lightbox-close">&times;</span>
+                <img class="lightbox-content" id="lightbox-img">
+                <div class="lightbox-caption" id="lightbox-caption"></div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO PROJETOS (agora dinâmica com GitHub) -->
         <section id="projetos" class="projetos">
             <div class="container">
                 <div class="section-title reveal">
                     <h2>Nossos Projetos</h2>
                     <p>O que estamos construindo</p>
                 </div>
-                <div class="empty-state reveal">
-                    <i class="fa-regular fa-folder-open"></i>
-                    <h3>Nenhum projeto disponível ainda</h3>
-                    <p>Estamos no 1º ano e atualmente afiando nossas habilidades lógicas. Em breve, este espaço estará cheio de código incrível!</p>
+                <div id="projetos-container" class="projetos-grid">
+                    <!-- Carregado via JavaScript (API GitHub) -->
+                    <div class="loading-projetos">Carregando projetos do GitHub...</div>
                 </div>
             </div>
         </section>
@@ -188,6 +318,27 @@
             </div>
         </section>
 
+        <!-- NOVA SEÇÃO: Mural de Recados -->
+        <section id="mural" class="mural">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Mural de <span class="highlight">Recados</span></h2>
+                    <p>Deixe um recado para a turma</p>
+                </div>
+                <div class="mural-container reveal">
+                    <form id="form-recado" class="form-recado">
+                        <div class="input-group">
+                            <input type="text" id="recado-nome" placeholder="Seu nome" maxlength="30" required>
+                            <textarea id="recado-mensagem" placeholder="Sua mensagem..." rows="3" maxlength="200" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i> Publicar</button>
+                    </form>
+                    <div id="lista-recados" class="lista-recados">
+                        <!-- Recados serão inseridos via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
         <section id="contato" class="contato">
             <div class="container">
                 <div class="section-title reveal">
@@ -203,9 +354,9 @@
                         <div class="card-body">
                             <h4>IFRN - Campus Caicó</h4>
                             <p><i class="fa-solid fa-location-dot"></i> Rodovia RN 288, s/n - Nova Caicó, RN<br>CEP: 59300-000</p>
-                            <p><i class="fa-solid fa-phone"></i> (84) 4005-2600 <em>(Ramal Caicó)</em></p>
-                            <a href="mailto:info.caico@ifrn.edu.br" class="link-destaque">
-                                <i class="fa-solid fa-envelope"></i> info.caico@ifrn.edu.br
+                            <p><i class="fa-solid fa-phone"></i> (84) 4005-4102 <em>(Ramal Caicó)</em></p>
+                            <a href="mailto:seac.ca@ifrn.edu.br" class="link-destaque">
+                                <i class="fa-solid fa-envelope"></i> seac.ca@ifrn.edu.br
                             </a>
                         </div>
                     </div>
@@ -229,7 +380,7 @@
             </div>
         </section>
 
-        <!-- SEÇÃO NOSSO MASCOTE -->
+        <!-- SEÇÃO NOSSO MASCOTE (mantida exatamente como original) -->
         <section id="mascote" class="mascote-section">
             <div class="mascote-container reveal">
                 <h2 class="mascote-title">🐾 <span>Nosso Mascote</span> 🤖</h2>
@@ -241,7 +392,7 @@
                     <div class="mascote-info">
                         <h3>Conheça nosso mascote!</h3>
                         <p>Ele representa a energia, criatividade e inovação da turma 2V. Sempre pronto para novos desafios no mundo da tecnologia!</p>
-                        
+
                         <div class="mascote-stats">
                             <div class="mascote-stat">
                                 <i class="fa-solid fa-heart"></i>
@@ -289,4 +440,4 @@
     <script src="scripts/script.js"></script>
     <script src="scripts/mascote.js"></script>
 </body>
-</html>
+    </html>
