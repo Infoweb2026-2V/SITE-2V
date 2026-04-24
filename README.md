@@ -18,20 +18,3 @@ O projeto foi construído puramente com tecnologias base da web (Vanilla), sem o
   * Layouts responsivos construídos com Flexbox e CSS Grid.
   * Efeitos avançados como `drop-shadow`, `backdrop-filter` e transições de estado (`hover`, `transform`).
 * **JavaScript (Vanilla):** Lógica de interatividade, manipulação do DOM e controle de tempo (`setTimeout`) para animações visuais.
-
-SITE-2V/
-│
-├── img
-      ├── 2V.png
-      ├── Mascote.png
-      ├── favicon.ico
-      ├── turma01.jpg
-├── styles/
-      ├── mascote.css
-      ├── style.css
-├── script/
-      ├── script.js
-      ├── mascote.js
-├── index.html
-├── LICENSE
-├── README.md
