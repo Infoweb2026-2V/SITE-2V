@@ -317,13 +317,20 @@
         storageBucket: "muralturmanormal.firebasestorage.app",
         messagingSenderId: "993749229757",
         appId: "1:993749229757:web:ec87d8ca3b8950d70d57d4"
-      };
-
+    };
 
     // Inicializa o Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const recadosRef = ref(db, 'mural_recados'); // "Pasta" no banco de dados
+    const recadosRef = ref(db, 'mural_recados');
+
+    // ==========================================
+    // 👑 LISTA DE MATRÍCULAS COM SUPERPODERES (ADMINS)
+    // ==========================================
+    // Adicione aqui as matrículas dos alunos administradores:
+    const MATRICULAS_ADMIN = [
+        "20261101110002"
+    ];
 
 
     // ==========================================
@@ -373,24 +380,19 @@
     // ESCUTA A NUVEM EM TEMPO REAL E LIMPA OS EXPIRADOS
     onValue(recadosRef, (snapshot) => {
         bancoDeRecados = [];
-        const agora = Date.now(); // Data e hora atual em ms
+        const agora = Date.now();
 
         snapshot.forEach((childSnapshot) => {
             const recado = childSnapshot.val();
             const id = childSnapshot.key;
             
-            // Caso seja um recado antigo sem timestamp, usa a data atual
             const timestampCriacao = recado.timestamp || agora; 
             const diasDuracao = recado.duracao_dias || 7; 
-            
-            // Converte a duração em milissegundos
             const tempoDeVidaMs = diasDuracao * 24 * 60 * 60 * 1000;
             
             if (agora - timestampCriacao > tempoDeVidaMs) {
-                // Exclui o recado expirado automaticamente do Firebase
                 remove(ref(db, 'mural_recados/' + id));
             } else {
-                // Ainda está no prazo, armazena para exibição
                 bancoDeRecados.push({
                     id: id,
                     ...recado,
@@ -431,12 +433,10 @@
             const mensagemBruta = document.getElementById('recado-mensagem').value;
             const selectDuracao = document.getElementById('recado-duracao');
             
-            // 🛡️ Limpa o texto antes de enviar para a nuvem
             const mensagemSegura = escaparHTML(mensagemBruta);
             const nomeSeguro = escaparHTML(window.usuarioLogado.nome);
             const diasSelecionados = selectDuracao ? parseInt(selectDuracao.value) : 7;
 
-            // Envia para o Firebase já protegido
             push(recadosRef, {
                 autor_nome: nomeSeguro,
                 autor_matricula: window.usuarioLogado.matricula,
@@ -464,6 +464,7 @@
         }
 
         const recadosReversos = [...bancoDeRecados].reverse();
+        const ehAdmin = MATRICULAS_ADMIN.includes(window.usuarioLogado.matricula);
 
         recadosReversos.forEach(recado => {
             const jaCurtiu = recado.likes && recado.likes.includes(window.usuarioLogado.matricula);
@@ -473,15 +474,26 @@
 
             const textoExpiracao = calcularTempoRestante(recado.timestampCriacao, recado.diasDuracao);
 
-            const btnExcluir = recado.autor_matricula === window.usuarioLogado.matricula 
-                ? `<button type="button" class="btn-like" style="color: #ff4757;" onclick="excluirRecado('${recado.id}')" title="Excluir meu recado">
+            // VERIFICAÇÕES DE PERMISSÃO:
+            const ehAutor = recado.autor_matricula === window.usuarioLogado.matricula;
+            
+            // 🛡️ Permissão de Exclusão (Se for Autor OU Admin)
+            const btnExcluir = (ehAutor || ehAdmin)
+                ? `<button type="button" class="btn-like" style="color: #ff4757;" onclick="excluirRecado('${recado.id}')" title="${ehAdmin && !ehAutor ? 'Excluir como Admin' : 'Excluir meu recado'}">
                        <i class="fa-solid fa-trash"></i>
                    </button>` 
                 : '';
 
-            // 🛡️ Limpa a mensagem e o nome contra códigos maliciosos na renderização
+            // ✏️ Permissão de Edição (Se for Autor OU Admin)
+            const btnEditar = (ehAutor || ehAdmin)
+                ? `<button type="button" class="btn-like" style="color: #eccc68;" onclick="editarRecado('${recado.id}')" title="${ehAdmin && !ehAutor ? 'Editar como Admin' : 'Editar meu recado'}">
+                       <i class="fa-solid fa-pen"></i>
+                   </button>` 
+                : '';
+
             const mensagemSegura = escaparHTML(recado.mensagem);
             const nomeSeguro = escaparHTML(recado.autor_nome);
+            const tagEditado = recado.editado ? ' <small style="opacity: 0.6; font-style: italic;">(editado)</small>' : '';
 
             const div = document.createElement('div');
             div.className = 'recado-item';
@@ -489,11 +501,12 @@
                 <div class="recado-header">
                     <span class="recado-nome">${nomeSeguro}</span>
                     <span class="recado-data" title="${textoExpiracao}">
-                        <i class="fa-regular fa-clock" style="font-size: 0.85em; margin-right: 3px;"></i>${recado.data} • <small style="opacity: 0.8;">${textoExpiracao}</small>
+                        <i class="fa-regular fa-clock" style="font-size: 0.85em; margin-right: 3px;"></i>${recado.data}${tagEditado} • <small style="opacity: 0.8;">${textoExpiracao}</small>
                     </span>
                 </div>
                 <p class="recado-mensagem">${mensagemSegura}</p>
                 <div class="recado-acoes">
+                    ${btnEditar}
                     ${btnExcluir}
                     <button type="button" class="btn-like" style="${corCoracao}" onclick="curtirRecado('${recado.id}')">
                         <i class="${iconeCoracao}"></i> ${totalLikes}
@@ -501,6 +514,42 @@
                 </div>
             `;
             lista.appendChild(div);
+        });
+    };
+
+    // Função de Editar Recado
+    window.editarRecado = function(id) {
+        const itemRef = ref(db, 'mural_recados/' + id);
+        
+        get(itemRef).then((snapshot) => {
+            const recado = snapshot.val();
+            if (recado) {
+                const ehAdmin = MATRICULAS_ADMIN.includes(window.usuarioLogado.matricula);
+                const ehAutor = recado.autor_matricula === window.usuarioLogado.matricula;
+
+                if (!ehAutor && !ehAdmin) {
+                    alert('Você não tem permissão para editar este recado!');
+                    return;
+                }
+
+                // Desfaz a sanitização temporariamente para o texto limpo aparecer no prompt
+                const textoAtual = recado.mensagem
+                    .replace(/&amp;/g, "&")
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#039;/g, "'");
+
+                const novaMensagem = prompt('Edite a sua mensagem:', textoAtual);
+
+                if (novaMensagem !== null && novaMensagem.trim() !== '') {
+                    const mensagemSegura = escaparHTML(novaMensagem.trim());
+                    update(itemRef, {
+                        mensagem: mensagemSegura,
+                        editado: true
+                    });
+                }
+            }
         });
     };
 
@@ -515,12 +564,11 @@
                 const indexLike = likes.indexOf(window.usuarioLogado.matricula);
                 
                 if (indexLike === -1) {
-                    likes.push(window.usuarioLogado.matricula); // Curte
+                    likes.push(window.usuarioLogado.matricula);
                 } else {
-                    likes.splice(indexLike, 1); // Descurte
+                    likes.splice(indexLike, 1);
                 }
                 
-                // Atualiza na nuvem
                 update(itemRef, { likes: likes });
             }
         });
@@ -528,9 +576,24 @@
 
     // Função de Excluir
     window.excluirRecado = function(id) {
-        if (confirm('Tem certeza que deseja excluir este recado?')) {
-            remove(ref(db, 'mural_recados/' + id));
-        }
+        const itemRef = ref(db, 'mural_recados/' + id);
+        
+        get(itemRef).then((snapshot) => {
+            const recado = snapshot.val();
+            if (recado) {
+                const ehAdmin = MATRICULAS_ADMIN.includes(window.usuarioLogado.matricula);
+                const ehAutor = recado.autor_matricula === window.usuarioLogado.matricula;
+
+                if (!ehAutor && !ehAdmin) {
+                    alert('Você não tem permissão para excluir este recado!');
+                    return;
+                }
+
+                if (confirm('Tem certeza que deseja excluir este recado?')) {
+                    remove(itemRef);
+                }
+            }
+        });
     };
 
 
@@ -566,18 +629,14 @@
                 history.replaceState(null, null, window.location.pathname);
             }
 
-            // REVELA O CONTEÚDO DA PÁGINA
             $('.is-authenticated').removeClass("is-hidden");
             
-            // ==================================================
-            // RENDERIZA O CALENDÁRIO (Somente após revelar a tela)
-            // ==================================================
             var calendarEl = document.getElementById('calendar');
             if (calendarEl) {
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
-                    locale: 'pt-br', // Deixa os dias da semana e meses em Português
-                    initialDate: '2026-09-01', // Data inicial para Setembro de 2026
+                    locale: 'pt-br',
+                    initialDate: '2026-09-01',
                     
                     validRange: {
                         start: '2026-09-01',
@@ -594,9 +653,7 @@
                 });
                 calendar.render();
             }
-            // ==================================================
 
-            // PEGA DADOS DO USUÁRIO NO SUAP
             var scope = suap.getToken().getScope();
             suap.getResource(scope, function(dados_suap) {
                 var fotoPath = dados_suap.url_foto_150x200 || dados_suap.url_foto_75x100 || dados_suap.foto || "";
@@ -621,7 +678,6 @@
                 $("#user-nome").text(nomeSuap);
                 $("#user-matricula").text(matriculaSuap);
                 
-                // MURAL: Associa os dados e renderiza
                 window.usuarioLogado.nome = nomeSuap;
                 window.usuarioLogado.matricula = matriculaSuap;
                 
