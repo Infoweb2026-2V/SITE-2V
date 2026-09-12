@@ -325,9 +325,8 @@
     const recadosRef = ref(db, 'mural_recados');
 
     // ==========================================
-    // 👑 LISTA DE MATRÍCULAS COM SUPERPODERES (ADMINS)
+    // 👑 MATRÍCULA ADMIN (SUPERPODERES)
     // ==========================================
-    // Adicione aqui as matrículas dos alunos administradores:
     const MATRICULAS_ADMIN = [
         "20261101110002"
     ];
@@ -377,40 +376,38 @@
             .replace(/'/g, "&#039;");
     }
 
-    // ESCUTA A NUVEM EM TEMPO REAL E LIMPA OS EXPIRADOS
-    onValue(recadosRef, (snapshot) => {
-        bancoDeRecados = [];
-        const agora = Date.now();
-
-        snapshot.forEach((childSnapshot) => {
-            const recado = childSnapshot.val();
-            const id = childSnapshot.key;
-            
-            const timestampCriacao = recado.timestamp || agora; 
-            const diasDuracao = recado.duracao_dias || 7; 
-            const tempoDeVidaMs = diasDuracao * 24 * 60 * 60 * 1000;
-            
-            if (agora - timestampCriacao > tempoDeVidaMs) {
-                remove(ref(db, 'mural_recados/' + id));
-            } else {
-                bancoDeRecados.push({
-                    id: id,
-                    ...recado,
-                    timestampCriacao: timestampCriacao,
-                    diasDuracao: diasDuracao
-                });
-            }
-        });
+    // FUNÇÃO INTELIGENTE PARA CALCULAR HORAS (Com limites de 1h a 15d)
+    function parseDuracaoParaHoras(valor) {
+        if (!valor) return 24 * 7; // Padrão 7 dias se vier vazio
+        let str = String(valor).trim().toLowerCase();
+        let horas = 0;
         
-        window.renderizarMural();
-    });
+        if (str.endsWith('h')) {
+            horas = parseFloat(str.replace('h', '')); // Extrai horas
+        } else if (str.endsWith('d')) {
+            horas = parseFloat(str.replace('d', '')) * 24; // Converte dias para horas
+        } else {
+            // Se for só número (como no form HTML antigo), assume que são dias
+            horas = parseFloat(str) * 24; 
+        }
 
-    // Função auxiliar para calcular o tempo restante amigável
-    function calcularTempoRestante(timestampCriacao, diasDuracao) {
+        if (isNaN(horas) || horas <= 0) horas = 24 * 7; // Fallback caso digitem besteira
+
+        // Aplicando as travas de limite que você pediu:
+        if (horas < 1) horas = 1;         // Mínimo: 1 hora
+        if (horas > 360) horas = 360;     // Máximo: 15 dias (15 * 24 = 360 horas)
+
+        return Math.round(horas);
+    }
+
+    // Função para exibir o tempo de forma amigável
+    function calcularTempoRestante(timestampCriacao, duracaoHoras) {
         const agora = Date.now();
-        const tempoLimite = timestampCriacao + (diasDuracao * 24 * 60 * 60 * 1000);
+        const tempoLimite = timestampCriacao + (duracaoHoras * 60 * 60 * 1000);
         const msRestantes = tempoLimite - agora;
         
+        if (msRestantes <= 0) return `Expirado`;
+
         const horasRestantes = Math.floor(msRestantes / (1000 * 60 * 60));
         const diasRestantes = Math.floor(horasRestantes / 24);
 
@@ -421,11 +418,42 @@
         } else if (horasRestantes > 0) {
             return `Expira em ${horasRestantes}h`;
         } else {
-            return `Expira em breve`;
+            const minRestantes = Math.floor(msRestantes / (1000 * 60));
+            return `Expira em ${minRestantes} min`;
         }
     }
 
-    // Formulário: Enviando recado com sanitização na origem
+    // ESCUTA A NUVEM EM TEMPO REAL E LIMPA OS EXPIRADOS
+    onValue(recadosRef, (snapshot) => {
+        bancoDeRecados = [];
+        const agora = Date.now();
+
+        snapshot.forEach((childSnapshot) => {
+            const recado = childSnapshot.val();
+            const id = childSnapshot.key;
+            
+            const timestampCriacao = recado.timestamp || agora; 
+            
+            // Lida com recados antigos (dias) ou novos (horas)
+            const duracaoHoras = recado.duracao_horas || (recado.duracao_dias ? recado.duracao_dias * 24 : 7 * 24); 
+            const tempoDeVidaMs = duracaoHoras * 60 * 60 * 1000;
+            
+            if (agora - timestampCriacao > tempoDeVidaMs) {
+                remove(ref(db, 'mural_recados/' + id));
+            } else {
+                bancoDeRecados.push({
+                    id: id,
+                    ...recado,
+                    timestampCriacao: timestampCriacao,
+                    duracaoHoras: duracaoHoras
+                });
+            }
+        });
+        
+        window.renderizarMural();
+    });
+
+    // Formulário: Enviando recado com sanitização
     const formRecado = document.getElementById('form-recado');
     if (formRecado) {
         formRecado.addEventListener('submit', function(e) {
@@ -435,7 +463,10 @@
             
             const mensagemSegura = escaparHTML(mensagemBruta);
             const nomeSeguro = escaparHTML(window.usuarioLogado.nome);
-            const diasSelecionados = selectDuracao ? parseInt(selectDuracao.value) : 7;
+            
+            // Lê o valor do HTML, converte para horas e aplica limites (Min 1h, Max 15d)
+            const valorInputDuracao = selectDuracao ? selectDuracao.value : "7d";
+            const duracaoTotalHoras = parseDuracaoParaHoras(valorInputDuracao);
 
             push(recadosRef, {
                 autor_nome: nomeSeguro,
@@ -443,7 +474,7 @@
                 mensagem: mensagemSegura,
                 data: new Date().toLocaleDateString('pt-BR'),
                 timestamp: Date.now(),
-                duracao_dias: diasSelecionados,
+                duracao_horas: duracaoTotalHoras,
                 likes: []
             });
             
@@ -472,19 +503,18 @@
             const corCoracao = jaCurtiu ? 'color: #ff4757;' : '';
             const totalLikes = recado.likes ? recado.likes.length : 0;
 
-            const textoExpiracao = calcularTempoRestante(recado.timestampCriacao, recado.diasDuracao);
+            const textoExpiracao = calcularTempoRestante(recado.timestampCriacao, recado.duracaoHoras);
 
-            // VERIFICAÇÕES DE PERMISSÃO:
             const ehAutor = recado.autor_matricula === window.usuarioLogado.matricula;
             
-            // 🛡️ Permissão de Exclusão (Se for Autor OU Admin)
+            // 🛡️ Excluir (Autor OU Admin)
             const btnExcluir = (ehAutor || ehAdmin)
                 ? `<button type="button" class="btn-like" style="color: #ff4757;" onclick="excluirRecado('${recado.id}')" title="${ehAdmin && !ehAutor ? 'Excluir como Admin' : 'Excluir meu recado'}">
                        <i class="fa-solid fa-trash"></i>
                    </button>` 
                 : '';
 
-            // ✏️ Permissão de Edição (Se for Autor OU Admin)
+            // ✏️ Editar (Autor OU Admin)
             const btnEditar = (ehAutor || ehAdmin)
                 ? `<button type="button" class="btn-like" style="color: #eccc68;" onclick="editarRecado('${recado.id}')" title="${ehAdmin && !ehAutor ? 'Editar como Admin' : 'Editar meu recado'}">
                        <i class="fa-solid fa-pen"></i>
@@ -532,7 +562,7 @@
                     return;
                 }
 
-                // Desfaz a sanitização temporariamente para o texto limpo aparecer no prompt
+                // Desfaz a sanitização para leitura no prompt
                 const textoAtual = recado.mensagem
                     .replace(/&amp;/g, "&")
                     .replace(/&lt;/g, "<")
@@ -540,12 +570,25 @@
                     .replace(/&quot;/g, '"')
                     .replace(/&#039;/g, "'");
 
-                const novaMensagem = prompt('Edite a sua mensagem:', textoAtual);
+                const novaMensagem = prompt('1/2 - Edite a sua mensagem:', textoAtual);
 
                 if (novaMensagem !== null && novaMensagem.trim() !== '') {
+                    // Puxa as horas atuais e converte pro visual de "dias" ou "horas"
+                    const horasAtuais = recado.duracao_horas || (recado.duracao_dias ? recado.duracao_dias * 24 : 168);
+                    const tempoAtualStr = (horasAtuais % 24 === 0) ? (horasAtuais/24 + 'd') : (horasAtuais + 'h');
+
+                    const promptTempo = '2/2 - Digite o tempo de duração.\nUse "h" para horas ou "d" para dias.\n(Ex: 5h, 12h, 2d, 15d)\nMáximo: 15d | Mínimo: 1h';
+                    const novosDiasInput = prompt(promptTempo, tempoAtualStr);
+                    
+                    let novasHoras = horasAtuais;
+                    if (novosDiasInput !== null && novosDiasInput.trim() !== '') {
+                        novasHoras = parseDuracaoParaHoras(novosDiasInput);
+                    }
+
                     const mensagemSegura = escaparHTML(novaMensagem.trim());
                     update(itemRef, {
                         mensagem: mensagemSegura,
+                        duracao_horas: novasHoras,
                         editado: true
                     });
                 }
@@ -556,7 +599,6 @@
     // Função de Curtir
     window.curtirRecado = function(id) {
         const itemRef = ref(db, 'mural_recados/' + id);
-        
         get(itemRef).then((snapshot) => {
             const recado = snapshot.val();
             if (recado) {
@@ -577,7 +619,6 @@
     // Função de Excluir
     window.excluirRecado = function(id) {
         const itemRef = ref(db, 'mural_recados/' + id);
-        
         get(itemRef).then((snapshot) => {
             const recado = snapshot.val();
             if (recado) {
