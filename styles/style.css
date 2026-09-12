@@ -5,7 +5,7 @@
     --accent: #CEBDEC;
     --text-main: #FFFFFF;
     --text-muted: #CEBDEC;
-    --shadow: #000000;
+    --shadow: rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -97,12 +97,28 @@ a { text-decoration: none; color: inherit; }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-.hero-actions { display: flex; gap: 15px; justify-content: center; }
-.btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; cursor: pointer; display: inline-block; }
+.hero-actions { display: flex; gap: 15px; justify-content: center; align-items: center; }
+.btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; text-align: center; }
 .btn-primary { background-color: var(--text-main); color: var(--bg-base); }
 .btn-primary:hover { background-color: var(--accent); color: var(--bg-base); transform: translateY(-2px); }
 .btn-outline { background-color: transparent; border: 1px solid var(--accent); color: var(--text-main); }
 .btn-outline:hover { background-color: var(--bg-card); color: var(--bg-base); }
+
+/* ========== ESTILO CENTRALIZADO DO BOTÃO SUAP / ARTE ========== */
+.btn-suap {
+    border-color: #a97aff;
+    color: #a97aff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+.btn-suap:hover {
+    background-color: #a97aff;
+    color: #19004B;
+    transform: translateY(-2px);
+}
 
 section { padding: 100px 0; }
 #curso, #tecnologias, #estatisticas { background-color: var(--bg-surface); }
@@ -148,6 +164,20 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
+/* ==========================================================================
+   MELHORIAS DE RESPONSIVIDADE (TABLETS E MOBILE)
+   ========================================================================== */
+
+/* Tablet em Modo Paisagem / Notebooks Pequenos (768px a 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container { width: 90%; padding: 0 3%; }
+    .galeria-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .curso-grid, .contato-grid, .depoimentos-grid, .projetos-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 3.2rem; }
+}
+
+/* Tablet em Modo Retrato e Celulares Grandes (Até 850px) */
 @media (max-width: 850px) {
     .navbar { width: 92%; padding: 12px 20px; }
     .nav-links {
@@ -170,25 +200,158 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
     .hero-logo { width: 110px; }
     .hero h1 { font-size: 2.8rem; }
     .hero-actions { flex-direction: column; width: 100%; max-width: 250px; margin: 0 auto; }
-    .btn { text-align: center; }
+    .btn { text-align: center; justify-content: center; width: 100%; }
     .curso-grid { grid-template-columns: 1fr; }
     .contato-grid { grid-template-columns: 1fr; }
+    .galeria-grid { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   MODO CLARO (LIGHT THEME)
+   ========================================================================== */
 
 body.light-theme {
-    --bg-base: #F4F7F9;
-    --bg-surface: #E6EDF2;
+    --bg-base: #F8FAFC;
+    --bg-surface: #EDF2F7;
     --bg-card: #FFFFFF;
-    --accent: #19004B;
-    --text-main: #1A2530;
-    --text-muted: #64748B;
+    --accent: #5B21B6;
+    --text-main: #0F172A;
+    --text-muted: #475569;
     --shadow: rgba(0, 0, 0, 0.08);
 }
-body.light-theme .bg-glow { background: radial-gradient(circle, rgba(139, 94, 221, 0.15) 0%, rgba(244, 247, 249, 0) 70%); }
-body.light-theme .navbar { background: rgba(230, 237, 242, 0.85); border-color: rgba(25, 0, 75, 0.15); }
-body.light-theme .empty-state { background-color: rgba(255, 255, 255, 0.6); }
-body.light-theme .btn-outline:hover { background-color: var(--accent); color: #FFFFFF; }
 
+body.light-theme .bg-glow { 
+    background: radial-gradient(circle, rgba(91, 33, 182, 0.12) 0%, rgba(248, 250, 252, 0) 70%); 
+}
+
+body.light-theme .navbar { 
+    background: rgba(255, 255, 255, 0.85); 
+    border-color: rgba(91, 33, 182, 0.2); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .nav-links a {
+    color: #475569;
+}
+
+body.light-theme .nav-links a:hover, 
+body.light-theme .nav-links a.active {
+    color: #5B21B6;
+    font-weight: 600;
+}
+
+@media (max-width: 850px) {
+    body.light-theme .nav-links {
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(91, 33, 182, 0.2);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    body.light-theme .nav-links li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+}
+
+body.light-theme .btn-primary { 
+    background-color: var(--accent); 
+    color: #FFFFFF; 
+}
+body.light-theme .btn-primary:hover { 
+    background-color: #4C1D95; 
+    color: #FFFFFF; 
+}
+body.light-theme .btn-outline { 
+    border-color: var(--accent); 
+    color: var(--accent); 
+}
+body.light-theme .btn-outline:hover { 
+    background-color: var(--accent); 
+    color: #FFFFFF; 
+}
+
+body.light-theme .btn-suap {
+    border-color: #5a2eac;
+    color: #5a2eac;
+}
+body.light-theme .btn-suap:hover {
+    background-color: #5a2eac;
+    color: #FFFFFF;
+}
+
+body.light-theme .curso-card,
+body.light-theme .stat-card,
+body.light-theme .contato-card,
+body.light-theme .depoimento-card,
+body.light-theme .projeto-card {
+    background-color: var(--bg-card);
+    border-color: rgba(91, 33, 182, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .curso-card:hover,
+body.light-theme .stat-card:hover,
+body.light-theme .contato-card:hover,
+body.light-theme .projeto-card:hover {
+    background-color: #FFFFFF;
+    border-color: var(--accent);
+}
+
+body.light-theme .empty-state { 
+    background-color: rgba(91, 33, 182, 0.05); 
+    border-color: var(--accent);
+}
+
+body.light-theme .frase-do-dia {
+    background: rgba(91, 33, 182, 0.08);
+    border-left-color: var(--accent);
+}
+
+body.light-theme .tabela-horarios {
+    background-color: var(--bg-card);
+}
+
+body.light-theme .tabela-horarios th,
+body.light-theme .tabela-horarios td {
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .tabela-horarios thead {
+    background-color: var(--bg-surface);
+    color: var(--accent);
+}
+
+body.light-theme .tabela-horarios tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.light-theme .tabela-horarios tbody tr:hover {
+    background-color: rgba(91, 33, 182, 0.08);
+}
+
+/* Form e Mural no Tema Claro */
+body.light-theme .form-recado,
+body.light-theme .recado-item {
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .recado-item {
+    border-left: 5px solid var(--accent);
+}
+
+body.light-theme .form-recado input,
+body.light-theme .form-recado textarea {
+    background: var(--bg-base);
+    color: var(--text-main);
+    border: 1px solid #CBD5E1;
+}
+
+body.light-theme .form-recado input:focus,
+body.light-theme .form-recado textarea:focus {
+    border-color: var(--accent);
+    background: #FFFFFF;
+}
+
+/* Outros elementos utilitários */
 #preloader {
     position: fixed;
     top: 0;
@@ -279,8 +442,6 @@ body.light-theme .btn-outline:hover { background-color: var(--accent); color: #F
 }
 
 .tilt-element { transform-style: preserve-3d; will-change: transform; }
-
-/* ========== NOVOS ESTILOS ADICIONADOS ========== */
 
 /* Frase do Dia */
 .frase-do-dia {
@@ -410,52 +571,6 @@ body.light-theme .btn-outline:hover { background-color: var(--accent); color: #F
     transform: scale(1.1);
 }
 
-/* Lightbox */
-.lightbox {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.95);
-    backdrop-filter: blur(8px);
-    text-align: center;
-    padding: 20px;
-}
-
-.lightbox-content {
-    max-width: 90%;
-    max-height: 80vh;
-    margin-top: 50px;
-    border-radius: 12px;
-    border: 2px solid var(--accent);
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    color: var(--text-main);
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s;
-    z-index: 10001;
-}
-
-.lightbox-close:hover {
-    color: var(--accent);
-}
-
-.lightbox-caption {
-    margin: 20px auto;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    max-width: 700px;
-}
-
 /* Projetos (GitHub) */
 .projetos-grid {
     display: grid;
@@ -527,168 +642,4 @@ body.light-theme .btn-outline:hover { background-color: var(--accent); color: #F
     text-align: center;
     padding: 40px;
     color: var(--text-muted);
-}
-
-/* Mural de Recados */
-.mural {
-    background-color: var(--bg-base);
-}
-
-.mural-container {
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.form-recado {
-    background: var(--bg-surface);
-    padding: 25px;
-    border-radius: 16px;
-    margin-bottom: 30px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-recado input,
-.form-recado textarea {
-    background: var(--bg-base);
-    border: 1px solid var(--bg-card);
-    border-radius: 8px;
-    padding: 12px 16px;
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.form-recado input:focus,
-.form-recado textarea:focus {
-    border-color: var(--accent);
-}
-
-.lista-recados {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.recado-item {
-    background: var(--bg-surface);
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 5px solid var(--accent);
-    transition: transform 0.2s;
-}
-
-.recado-item:hover {
-    transform: translateX(5px);
-}
-
-.recado-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.recado-nome {
-    font-weight: 700;
-    color: var(--accent);
-}
-
-.recado-data {
-    font-size: 0.8rem;
-}
-
-.recado-mensagem {
-    color: var(--text-main);
-    line-height: 1.5;
-    word-break: break-word;
-}
-
-.recado-acoes {
-    margin-top: 15px;
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-}
-
-.btn-like {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: color 0.2s;
-}
-
-.btn-like:hover {
-    color: #ff4757;
-}
-
-.btn-like i {
-    margin-right: 5px;
-}
-
-.sem-recados {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-muted);
-    font-style: italic;
-}
-
-/* Depoimentos */
-.depoimentos {
-    background-color: var(--bg-surface);
-}
-
-.depoimentos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.depoimento-card {
-    background: var(--bg-base);
-    padding: 30px;
-    border-radius: 20px;
-    position: relative;
-    border: 1px solid var(--bg-card);
-}
-
-.depoimento-card i {
-    color: var(--accent);
-    font-size: 2rem;
-    opacity: 0.3;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.depoimento-card p {
-    font-style: italic;
-    margin-bottom: 20px;
-    color: var(--text-main);
-}
-
-.depoimento-autor {
-    color: var(--text-muted);
-    font-weight: 600;
-    text-align: right;
-}
-
-/* Responsividade extra */
-@media (max-width: 600px) {
-    .nav-links {
-        max-height: 0;
-    }
-    .nav-links.show {
-        max-height: 600px;
-    }
 }

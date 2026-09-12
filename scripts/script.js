@@ -230,42 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     exibirFraseAleatoria();
 
-    // 13. Lightbox para Galeria
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    const galeriaItems = document.querySelectorAll('.galeria-item img');
-
-    if (lightbox && galeriaItems.length > 0) {
-        galeriaItems.forEach(img => {
-            img.addEventListener('click', () => {
-                lightbox.style.display = 'block';
-                lightboxImg.src = img.src;
-                lightboxCaption.textContent = img.alt;
-            });
-        });
-
-        const closeBtn = document.querySelector('.lightbox-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-            });
-        }
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-            }
-        });
-    }
-
-    // 14. Carregar Projetos do GitHub
+    // 13. Carregar Projetos do GitHub
     async function carregarProjetosGitHub() {
         const container = document.getElementById('projetos-container');
         if (!container) return;
@@ -323,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     carregarProjetosGitHub();
 
-    // 15. Mural de Recados com localStorage
+    // 14. Mural de Recados com localStorage
     const STORAGE_KEY = 'mural_recados_2v';
 
     function carregarRecados() {
@@ -420,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 16. Easter Egg no Console
+    // 15. Easter Egg no Console
     console.log('%c🐾 Turma 2V - IFRN Caicó', 'font-size: 16px; font-weight: bold; color: #8B5EDD;');
     console.log('%cVocê é curioso(a)! Isso é uma qualidade de dev 😉', 'font-size: 12px; color: #CEBDEC;');
     console.log('%cDá um "carinho" no mascote aí embaixo!', 'font-size: 12px;');

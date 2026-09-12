@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let likes = localStorage.getItem('mascoteLikes') ? parseInt(localStorage.getItem('mascoteLikes')) : 0;
     let mensagens = localStorage.getItem('mascoteMensagens') ? parseInt(localStorage.getItem('mascoteMensagens')) : 0;
     
+    // VARIÁVEL ADICIONADA: Controle do delay de 0.7s
+    let podeClicar = true;
+    
     // Função para atualizar a barra de progresso
     function atualizarProgresso() {
         if (progressoFill) {
@@ -114,6 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Função para dar carinho (com limite de 1 MILHÃO)
     function darCarinho(event) {
+        // VERIFICAÇÃO ADICIONADA: Impede o clique se não tiver passado 0.7s
+        if (!podeClicar) return;
+        podeClicar = false;
+        setTimeout(() => {
+            podeClicar = true;
+        }, 200); // 200ms = 0.2 segundos
+        
         // Verificar limite
         if (atingiuLimite()) {
             mostrarNotificacao(`🎉 PARABÉNS! VOCÊ AJUDOU A ATINGIR 1 MILHÃO DE CARINHOS! O MASCOTE É LENDÁRIO! 🎉`, 'erro');
@@ -174,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mensagens diferentes baseado na proximidade do limite
         let frases = [];
         if (faltam <= 1000) {
-            frases = [`🎯 FALTAM APENAS ${faltam.toLocaleString('pt-BR')} CARINHOS! 🎯`, `💪 ÚLTIMO EMPURRÃO! Faltam ${faltam.toLocaleString('pt-BR')}!`, `🏁 QUASE 1 MILHÃO! Faltam ${faltam.toLocaleString('pt-BR')}!`, `⭐ VOCÊ CONSEGUE! Faltam ${faltam.toLocaleString('pt-BR')}!`];
+            frases = [`🎯 FALTAM APENAS ${faltam.toLocaleString('pt-BR')} CARINHOS! 🎯`, `💪 ÚLTIMO EMPURRÃO! Faltam ${faltam.toLocaleString('pt-BR')}!`, `🏁 QUASE 1 MILHÃO! Faltam ${faltam.toLocaleString('pt-BR')}!`, `⭐ VOCÊ CONSEGUE! Faltam ${faltam.toLocaleString('pt-BR')}!`];
         } else if (faltam <= 100000) {
             frases = [`🔥 Faltam só ${faltam.toLocaleString('pt-BR')} carinhos!`, `💪 Continue assim! Faltam ${faltam.toLocaleString('pt-BR')}`, `🎯 Meta próxima: ${faltam.toLocaleString('pt-BR')} carinhos!`, `✨ Rumo ao 1 MILHÃO! Faltam ${faltam.toLocaleString('pt-BR')}`];
         } else {
