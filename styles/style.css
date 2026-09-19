@@ -60,18 +60,12 @@ p, h1, h2, h3, h4, h5, h6, span, li, .recado-mensagem, .projeto-card p {
     --text-main: #FFFFFF;
     --text-muted: #CEBDEC;
     --shadow: rgba(0, 0, 0, 0.4);
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ff4757;
     --transition: all 0.3s ease;
     --border-color: rgba(206, 189, 236, 0.3);
-=======
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
 }
 
 body {
@@ -734,11 +728,6 @@ body.menu-aberto { overflow: hidden; }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-<<<<<<< Updated upstream
-.hero-actions { display: flex; gap: 15px; justify-content: center; align-items: center; }
-.btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; text-align: center; }
-=======
-<<<<<<< HEAD
 .hero-actions {
     display: flex;
     gap: 15px;
@@ -758,32 +747,14 @@ body.menu-aberto { overflow: hidden; }
     align-items: center;
     text-align: center;
 }
-=======
-.hero-actions { display: flex; gap: 15px; justify-content: center; align-items: center; }
-.btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; text-align: center; }
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
 .btn-primary { background-color: var(--text-main); color: var(--bg-base); }
 .btn-primary:hover { background-color: var(--accent); color: var(--bg-base); transform: translateY(-2px); }
 .btn-outline { background-color: transparent; border: 1px solid var(--accent); color: var(--text-main); }
 .btn-outline:hover { background-color: var(--bg-card); color: var(--bg-base); }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 .btn-suap {
     border-color: var(--accent);
     color: var(--accent);
-=======
->>>>>>> Stashed changes
-/* ========== ESTILO CENTRALIZADO DO BOTÃO SUAP / ARTE ========== */
-.btn-suap {
-    border-color: #a97aff;
-    color: #a97aff;
-<<<<<<< Updated upstream
-=======
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -791,18 +762,8 @@ body.menu-aberto { overflow: hidden; }
     gap: 8px;
 }
 .btn-suap:hover {
-<<<<<<< Updated upstream
-    background-color: #a97aff;
-    color: #19004B;
-=======
-<<<<<<< HEAD
     background-color: var(--accent);
     color: var(--bg-base);
-=======
-    background-color: #a97aff;
-    color: #19004B;
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
     transform: translateY(-2px);
 }
 
@@ -880,9 +841,6 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 /* ==========================================
    RESPONSIVIDADE
    ========================================== */
@@ -892,62 +850,16 @@ footer p { color: var(--text-muted); font-size: 0.9rem; }
     .curso-grid, .contato-grid, .projetos-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .hero h1 { font-size: 3.2rem; }
-=======
->>>>>>> Stashed changes
-/* ==========================================================================
-   MELHORIAS DE RESPONSIVIDADE (TABLETS E MOBILE)
-   ========================================================================== */
-
-/* Tablet em Modo Paisagem / Notebooks Pequenos (768px a 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .container { width: 90%; padding: 0 3%; }
-    .galeria-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .curso-grid, .contato-grid, .depoimentos-grid, .projetos-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero h1 { font-size: 3.2rem; }
-}
-
-/* Tablet em Modo Retrato e Celulares Grandes (Até 850px) */
-@media (max-width: 850px) {
-    .navbar { width: 92%; padding: 12px 20px; }
-    .nav-links {
-        position: absolute; top: calc(100% + 10px); left: 0; width: 100%;
-        background: rgba(25, 0, 75, 0.95);
-        backdrop-filter: blur(16px);
-        flex-direction: column; gap: 0; text-align: center;
-        border-radius: 20px; overflow: hidden;
-        max-height: 0; opacity: 0; visibility: hidden;
-        transition: all 0.4s ease;
-        border: 1px solid rgba(206, 189, 236, 0.4);
-    }
-    .nav-links.show { max-height: 600px; opacity: 1; visibility: visible; }
-    .nav-links li { padding: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-    .nav-links a { display: block; padding: 16px 20px; }
-    .menu-mobile { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
 }
 
 @media (max-width: 600px) {
     .hero-logo { width: 110px; }
-<<<<<<< HEAD
     .hero h1 { font-size: 2.2rem; }
     .hero-actions { flex-direction: column; width: 100%; max-width: 260px; margin: 0 auto; }
-=======
-    .hero h1 { font-size: 2.8rem; }
-    .hero-actions { flex-direction: column; width: 100%; max-width: 250px; margin: 0 auto; }
-<<<<<<< Updated upstream
-=======
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
     .btn { text-align: center; justify-content: center; width: 100%; }
     .curso-grid { grid-template-columns: 1fr; }
     .contato-grid { grid-template-columns: 1fr; }
     .galeria-grid { grid-template-columns: 1fr; }
-<<<<<<< Updated upstream
-}
-
-=======
-<<<<<<< HEAD
     .header-actions { gap: 2px; }
     .btn-menu-hamburguer { width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 50%; }
     .navbar { padding: 10px 16px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
@@ -999,160 +911,6 @@ body.light-theme .frase-do-dia {
 /* ==========================================
    UTILITÁRIOS
    ========================================== */
-=======
-}
-
->>>>>>> Stashed changes
-/* ==========================================================================
-   MODO CLARO (LIGHT THEME)
-   ========================================================================== */
-
-body.light-theme {
-    --bg-base: #F8FAFC;
-    --bg-surface: #EDF2F7;
-    --bg-card: #FFFFFF;
-    --accent: #5B21B6;
-    --text-main: #0F172A;
-    --text-muted: #475569;
-    --shadow: rgba(0, 0, 0, 0.08);
-}
-
-body.light-theme .bg-glow { 
-    background: radial-gradient(circle, rgba(91, 33, 182, 0.12) 0%, rgba(248, 250, 252, 0) 70%); 
-}
-
-body.light-theme .navbar { 
-    background: rgba(255, 255, 255, 0.85); 
-    border-color: rgba(91, 33, 182, 0.2); 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
-body.light-theme .nav-links a {
-    color: #475569;
-}
-
-body.light-theme .nav-links a:hover, 
-body.light-theme .nav-links a.active {
-    color: #5B21B6;
-    font-weight: 600;
-}
-
-@media (max-width: 850px) {
-    body.light-theme .nav-links {
-        background: rgba(255, 255, 255, 0.98);
-        border: 1px solid rgba(91, 33, 182, 0.2);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    body.light-theme .nav-links li {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-}
-
-body.light-theme .btn-primary { 
-    background-color: var(--accent); 
-    color: #FFFFFF; 
-}
-body.light-theme .btn-primary:hover { 
-    background-color: #4C1D95; 
-    color: #FFFFFF; 
-}
-body.light-theme .btn-outline { 
-    border-color: var(--accent); 
-    color: var(--accent); 
-}
-body.light-theme .btn-outline:hover { 
-    background-color: var(--accent); 
-    color: #FFFFFF; 
-}
-
-body.light-theme .btn-suap {
-    border-color: #5a2eac;
-    color: #5a2eac;
-}
-body.light-theme .btn-suap:hover {
-    background-color: #5a2eac;
-    color: #FFFFFF;
-}
-
-body.light-theme .curso-card,
-body.light-theme .stat-card,
-body.light-theme .contato-card,
-body.light-theme .depoimento-card,
-body.light-theme .projeto-card {
-    background-color: var(--bg-card);
-    border-color: rgba(91, 33, 182, 0.15);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-body.light-theme .curso-card:hover,
-body.light-theme .stat-card:hover,
-body.light-theme .contato-card:hover,
-body.light-theme .projeto-card:hover {
-    background-color: #FFFFFF;
-    border-color: var(--accent);
-}
-
-body.light-theme .empty-state { 
-    background-color: rgba(91, 33, 182, 0.05); 
-    border-color: var(--accent);
-}
-
-body.light-theme .frase-do-dia {
-    background: rgba(91, 33, 182, 0.08);
-    border-left-color: var(--accent);
-}
-
-body.light-theme .tabela-horarios {
-    background-color: var(--bg-card);
-}
-
-body.light-theme .tabela-horarios th,
-body.light-theme .tabela-horarios td {
-    border-color: rgba(0, 0, 0, 0.08);
-}
-
-body.light-theme .tabela-horarios thead {
-    background-color: var(--bg-surface);
-    color: var(--accent);
-}
-
-body.light-theme .tabela-horarios tbody tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.02);
-}
-
-body.light-theme .tabela-horarios tbody tr:hover {
-    background-color: rgba(91, 33, 182, 0.08);
-}
-
-/* Form e Mural no Tema Claro */
-body.light-theme .form-recado,
-body.light-theme .recado-item {
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.light-theme .recado-item {
-    border-left: 5px solid var(--accent);
-}
-
-body.light-theme .form-recado input,
-body.light-theme .form-recado textarea {
-    background: var(--bg-base);
-    color: var(--text-main);
-    border: 1px solid #CBD5E1;
-}
-
-body.light-theme .form-recado input:focus,
-body.light-theme .form-recado textarea:focus {
-    border-color: var(--accent);
-    background: #FFFFFF;
-}
-
-/* Outros elementos utilitários */
-<<<<<<< Updated upstream
-=======
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
 #preloader {
     position: fixed;
     top: 0;
@@ -1249,13 +1007,6 @@ body.light-theme .form-recado textarea:focus {
 
 .tilt-element { transform-style: preserve-3d; will-change: transform; }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-/* Frase do Dia */
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
 .frase-do-dia {
     max-width: 600px;
     margin: 40px auto 0;
@@ -1280,131 +1031,12 @@ body.light-theme .form-recado textarea:focus {
 .horario-legenda { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 20px; }
 .horario-legenda i { margin-right: 8px; }
 
-<<<<<<< HEAD
 .galeria { background-color: var(--bg-base); }
 .galeria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 20px; }
 .galeria-item { overflow: hidden; border-radius: 16px; border: 2px solid var(--bg-surface); transition: transform 0.3s, border-color 0.3s; aspect-ratio: 4 / 3; }
 .galeria-item:hover { transform: scale(1.02); border-color: var(--accent); }
 .galeria-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
 .galeria-item:hover img { transform: scale(1.1); }
-=======
-.frase-do-dia p {
-    font-size: 1.2rem;
-    font-style: italic;
-    margin-bottom: 5px;
-    color: var(--text-main);
-}
-
-.frase-do-dia span {
-    display: block;
-    text-align: right;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-/* Quadro de Horários */
-.horarios {
-    background-color: var(--bg-surface);
-}
-
-.table-responsive {
-    overflow-x: auto;
-    margin: 30px 0;
-    border-radius: 16px;
-    border: 1px solid var(--bg-card);
-}
-
-.tabela-horarios {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    min-width: 800px;
-}
-
-.tabela-horarios th,
-.tabela-horarios td {
-    padding: 15px 10px;
-    text-align: center;
-    border: 1px solid var(--bg-card);
-}
-
-.tabela-horarios thead {
-    background-color: var(--bg-base);
-    color: var(--accent);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.tabela-horarios tbody tr:nth-child(even) {
-    background-color: rgba(139, 94, 221, 0.05);
-}
-
-.tabela-horarios tbody tr:hover {
-    background-color: rgba(139, 94, 221, 0.15);
-    transition: background 0.2s;
-}
-
-.tabela-horarios .intervalo {
-    background-color: var(--bg-base);
-    font-weight: bold;
-    color: var(--accent);
-}
-
-.horario-legenda {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: 20px;
-}
-
-.horario-legenda i {
-    margin-right: 8px;
-}
-
-/* Galeria */
-.galeria {
-    background-color: var(--bg-base);
-}
-
-.galeria-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.galeria-item {
-    overflow: hidden;
-    border-radius: 16px;
-    border: 2px solid var(--bg-surface);
-    transition: transform 0.3s, border-color 0.3s;
-    aspect-ratio: 4 / 3;
-}
-
-.galeria-item:hover {
-    transform: scale(1.02);
-    border-color: var(--accent);
-}
-
-.galeria-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s;
-}
-
-.galeria-item:hover img {
-    transform: scale(1.1);
-}
-
-/* Projetos (GitHub) */
-.projetos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-}
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
 
 .projetos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 25px; }
 .projeto-card {
@@ -1436,7 +1068,6 @@ body.light-theme .form-recado textarea:focus {
 .btn-like:hover { color: var(--danger); transform: scale(1.1); }
 .sem-recados { text-align: center; padding: 40px; color: var(--text-muted); font-style: italic; }
 
-<<<<<<< HEAD
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1462,58 +1093,4 @@ body.light-theme .form-recado textarea:focus {
 @keyframes bounceInstall {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-3px); }
-=======
-.projeto-card h3 {
-    color: var(--accent);
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-}
-
-.projeto-card p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    flex-grow: 1;
-    margin-bottom: 15px;
-}
-
-.projeto-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 15px 0;
-}
-
-.projeto-tag {
-    background: rgba(139, 94, 221, 0.2);
-    color: var(--accent);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-.projeto-link {
-    color: var(--text-main);
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: auto;
-    transition: color 0.2s;
-}
-
-.projeto-link:hover {
-    color: var(--accent);
-}
-
-.loading-projetos {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px;
-    color: var(--text-muted);
-<<<<<<< Updated upstream
-=======
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
->>>>>>> Stashed changes
 }

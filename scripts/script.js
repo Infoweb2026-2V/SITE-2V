@@ -1091,7 +1091,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-<<<<<<< HEAD
   // 9. Contadores
   const counters = document.querySelectorAll(".counter");
   const statsSection = document.getElementById("estatisticas");
@@ -1190,107 +1189,6 @@ document.addEventListener("DOMContentLoaded", () => {
           card.style.transform =
             "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
           card.style.transition = "transform 0.5s ease";
-=======
-    // 12. Frase do Dia
-    const frases = [
-        { texto: "A melhor maneira de prever o futuro é criá-lo.", autor: "Peter Drucker" },
-        { texto: "Código é poesia.", autor: "WordPress" },
-        { texto: "Primeiro resolva o problema. Depois, escreva o código.", autor: "John Johnson" },
-        { texto: "A tecnologia move o mundo.", autor: "Steve Jobs" },
-        { texto: "Qualquer um pode escrever código que um computador entende. Bons programadores escrevem código que humanos entendem.", autor: "Martin Fowler" },
-        { texto: "O segredo para progredir é começar.", autor: "Mark Twain" },
-        { texto: "Não tenha medo de errar, tenha medo de não tentar.", autor: "Desconhecido" }
-    ];
-
-    function exibirFraseAleatoria() {
-        const hoje = new Date().toDateString();
-        const indice = hoje.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % frases.length;
-        const frase = frases[indice];
-        const fraseTexto = document.getElementById('frase-texto');
-        const fraseAutor = document.getElementById('frase-autor');
-        if (fraseTexto) fraseTexto.textContent = `"${frase.texto}"`;
-        if (fraseAutor) fraseAutor.textContent = `— ${frase.autor}`;
-    }
-    exibirFraseAleatoria();
-
-    // 13. Carregar Projetos do GitHub
-    async function carregarProjetosGitHub() {
-        const container = document.getElementById('projetos-container');
-        if (!container) return;
-
-        const username = 'infoWeb2026-2V';
-        
-        try {
-            const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
-            if (!response.ok) throw new Error('Erro na API');
-            const repos = await response.json();
-            
-            if (repos.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-regular fa-folder-open"></i>
-                        <h3>Nenhum projeto público ainda</h3>
-                        <p>Em breve nossos repositórios aparecerão aqui!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = repos.map(repo => `
-                <div class="projeto-card tilt-element">
-                    <h3><i class="fa-regular fa-bookmark"></i> ${repo.name}</h3>
-                    <p>${repo.description || 'Sem descrição fornecida.'}</p>
-                    ${repo.topics && repo.topics.length ? `
-                        <div class="projeto-tags">
-                            ${repo.topics.slice(0, 3).map(topic => `<span class="projeto-tag">${topic}</span>`).join('')}
-                        </div>
-                    ` : ''}
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: var(--text-muted); font-size: 0.8rem;">
-                            <i class="fa-regular fa-star"></i> ${repo.stargazers_count} 
-                            <i class="fa-solid fa-code-branch" style="margin-left: 10px;"></i> ${repo.forks_count}
-                        </span>
-                        <a href="${repo.html_url}" target="_blank" class="projeto-link">
-                            Ver no GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-            
-            if (window.ativarTilt) window.ativarTilt();
-        } catch (error) {
-            console.error('Erro ao carregar projetos:', error);
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa-regular fa-folder-open"></i>
-                    <h3>Não foi possível carregar os projetos</h3>
-                    <p>Verifique sua conexão ou tente novamente mais tarde.</p>
-                </div>
-            `;
-        }
-    }
-    carregarProjetosGitHub();
-
-    // 14. Mural de Recados com localStorage
-    const STORAGE_KEY = 'mural_recados_2v';
-
-    function carregarRecados() {
-        const recados = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        renderizarRecados(recados);
-    }
-
-    function salvarRecados(recados) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(recados));
-    }
-
-    function escapeHTML(str) {
-        return str.replace(/[&<>"]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            if (m === '"') return '&quot;';
-            return m;
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
         });
         card.addEventListener("mouseenter", () => {
           card.style.transition = "none";
@@ -1436,9 +1334,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuLateralOverlay = document.getElementById("menu-lateral-overlay");
   const btnFecharMenu = document.getElementById("btn-fechar-menu");
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
   function abrirMenuLateral() {
     menuLateral?.classList.add("aberto");
     menuLateralOverlay?.classList.add("aberto");
@@ -1560,13 +1455,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "font-size: 12px; color: #CEBDEC;"
   );
   console.log('%cDá um "carinho" no mascote aí embaixo!', "font-size: 12px;");
-=======
->>>>>>> Stashed changes
-    // 15. Easter Egg no Console
-    console.log('%c🐾 Turma 2V - IFRN Caicó', 'font-size: 16px; font-weight: bold; color: #8B5EDD;');
-    console.log('%cVocê é curioso(a)! Isso é uma qualidade de dev 😉', 'font-size: 12px; color: #CEBDEC;');
-    console.log('%cDá um "carinho" no mascote aí embaixo!', 'font-size: 12px;');
->>>>>>> 9c02b6fd22181dadf992c35ad6ab3fc62cb242fb
 });
 
 // Preloader
