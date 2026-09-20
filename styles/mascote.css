@@ -48,7 +48,7 @@
     height: auto;
     border-radius: 30px;
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
     cursor: pointer;
     animation: flutuarMascote 3s ease-in-out infinite;
 }
@@ -271,6 +271,107 @@
     100% { transform: translateX(100%); }
 }
 
+/* ==========================================
+   🆕 PROGRESSO PARA PRÓXIMA SKIN
+   ========================================== */
+.mascote-skin-progresso {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid hsl(var(--tema-h, 265), var(--tema-s, 60%), var(--tema-l, 62%) / 0.25);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+}
+
+body.light-theme .mascote-skin-progresso {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.skin-progresso-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--text-muted, #cebdec);
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.skin-progresso-label i {
+    color: var(--accent, #cebdec);
+    font-size: 0.95rem;
+    animation: balancaPresente 2.5s ease-in-out infinite;
+}
+
+@keyframes balancaPresente {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-12deg); }
+    75% { transform: rotate(12deg); }
+}
+
+.skin-progresso-label strong {
+    color: var(--accent, #cebdec);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.skin-progresso-label #proxima-skin-contagem {
+    margin-left: auto;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-main);
+    background: rgba(0, 0, 0, 0.25);
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+body.light-theme .skin-progresso-label #proxima-skin-contagem {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.skin-progresso-bar {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.28);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+body.light-theme .skin-progresso-bar {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.skin-progresso-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffb347, #ffd700, #ffed4e);
+    border-radius: 20px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+}
+
+.skin-progresso-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    animation: shine 2.2s infinite;
+}
+
+.mascote-skin-progresso.completo {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.18), rgba(255, 215, 0, 0.05));
+    border-color: rgba(255, 215, 0, 0.55);
+}
+
+.mascote-skin-progresso.completo .skin-progresso-fill {
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+}
+
 .limite-atingido .mascote-flutuante {
     filter: drop-shadow(0 0 25px gold);
     animation: brilhoLimite 1.2s ease-in-out infinite alternate;
@@ -385,7 +486,9 @@
     }
 }
 
-/* 🆕 RANKING DO MASCOTE */
+/* ==========================================
+   🆕 RANKING DO MASCOTE
+   ========================================== */
 .mascote-ranking {
     margin-top: 40px;
     background: hsl(var(--tema-h, 265), var(--tema-s, 60%), var(--tema-l, 62%) / 0.08);
@@ -602,6 +705,57 @@ body.light-theme .marco {
     background: rgba(0, 0, 0, 0.06);
 }
 
+/* ==========================================
+   🎭 SKIN BLOQUEADA (seletor no login)
+   ========================================== */
+.avatar-mascote-opcao.bloqueado {
+    opacity: 0.4;
+    cursor: not-allowed;
+    position: relative;
+    filter: grayscale(0.8);
+}
+
+.avatar-mascote-opcao.bloqueado:hover {
+    transform: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.avatar-mascote-opcao .avatar-lock {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 0.9rem;
+    background: var(--bg-base);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    z-index: 2;
+}
+
+.avatar-mascote-opcao .avatar-faltam {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.62rem;
+    background: var(--danger);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    white-space: nowrap;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* ==========================================
+   RESPONSIVO
+   ========================================== */
 @media (max-width: 768px) {
     .mascote-wrapper {
         flex-direction: column;
@@ -651,4 +805,56 @@ body.light-theme .marco {
     .mascote-info p { font-size: 0.9rem; }
     .marcos-container { gap: 6px; }
     .marco { font-size: 0.72rem; padding: 5px 10px; }
+    .mascote-skin-progresso { padding: 12px 14px; }
+    .skin-progresso-label { font-size: 0.76rem; gap: 6px; }
+    .skin-progresso-label #proxima-skin-contagem { font-size: 0.72rem; padding: 2px 8px; }
+}
+
+/* ==========================================
+   🔒 BLOQUEIO DE CLIQUE PARA ANÔNIMOS
+   ========================================== */
+.btn-bloqueado-anon {
+  background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+  cursor: not-allowed !important;
+  filter: grayscale(0.3);
+}
+
+.mascote-bloqueado {
+  position: relative;
+}
+
+.mascote-aviso-login {
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: rgba(139, 94, 221, 0.12);
+  border: 1.5px solid rgba(139, 94, 221, 0.4);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-main, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mascote-aviso-login i {
+  color: var(--accent-strong, #8b5edd);
+}
+
+.mascote-aviso-login a {
+  color: var(--accent-strong, #8b5edd);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent-strong, #8b5edd);
+  transition: color 0.2s;
+}
+
+.mascote-aviso-login a:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+body.light-theme .mascote-aviso-login {
+  background: rgba(139, 94, 221, 0.08);
 }
