@@ -85,7 +85,7 @@
             <span class="menu-item-desc" data-i18n="nav_inicio_desc_login">Página inicial</span>
           </span>
         </a>
-        <a href="login.html" class="menu-item">
+        <a href="login.html#notas" class="menu-item">
           <span class="menu-item-icone"><i class="fa-solid fa-chart-line"></i></span>
           <span class="menu-item-texto">
             <span class="menu-item-titulo" data-i18n="nav_notas">Notas</span>
@@ -331,12 +331,6 @@
           </div>
           <div class="conquistas-grid" id="conquistas-grid"></div>
         </div>
-      </div>
-    </section>
-
-    <section id="proximos-eventos" class="proximos-eventos is-authenticated is-hidden">
-      <div class="container">
-        <div id="proximos-eventos-lista" class="proximos-eventos-lista"></div>
       </div>
     </section>
 
@@ -733,12 +727,12 @@
 
         <section id="sala-professores" class="sala-professores is-authenticated is-hidden is-admin-hidden">
       <div class="container">
-        <div class="section-title">
-          <h2>
-            <i class="fa-solid fa-user-tie" style="color: var(--accent);"></i>
-            <span data-i18n="sala_titulo">Sala dos Professores</span>
-          </h2>
-          <p data-i18n="sala_sub">Visão geral da turma (acesso restrito)</p>
+        <div class="sala-acoes-admin">
+          <button type="button" id="btn-recalcular-cargos" class="btn-acao btn-recalcular-cargos">
+            <i class="fa-solid fa-rotate"></i>
+            <span>Recalcular Cargos</span>
+          </button>
+          <span id="sala-cargos-status" class="sala-cargos-status"></span>
         </div>
 
         <div class="sala-tabs">
@@ -777,12 +771,13 @@
                     <th data-i18n="sala_th_faltas">Faltas</th>
                     <th data-i18n="sala_th_carinhos">Carinhos</th>
                     <th data-i18n="sala_th_conquistas">Conquistas</th>
+                    <th>Cargo</th>
                     <th data-i18n="sala_th_status">Status</th>
                   </tr>
                 </thead>
                 <tbody id="sala-lista-alunos">
                   <tr>
-                    <td colspan="7" class="sala-vazio">
+                    <td colspan="8" class="sala-vazio">
                       <i class="fa-solid fa-spinner fa-spin"></i>
                       <span data-i18n="sala_carregando">Carregando dados...</span>
                     </td>
