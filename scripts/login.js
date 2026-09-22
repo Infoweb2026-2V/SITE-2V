@@ -1318,7 +1318,7 @@ function pintarElementoEvento(el, titulo, eventoId) {
 }
 
 // 🎨 Cor da Química (fallback por título — Sálvia não é exposta pela API)
-const COR_QUIMICA = "#7BDCB5";
+const COR_QUIMICA = "#0B8043";
 
 // 🎨 Só usa a cor do Google. Sem cor → tenta pelo título. Sem título → neutra.
 function corDoEvento(titulo, eventoId) {
