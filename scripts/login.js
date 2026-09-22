@@ -2938,16 +2938,36 @@ function atualizarContagemRegressiva(eventos) {
   __contagemInterval = setInterval(atualizarTimersContagem, 1000);
 }
 
+// 🆕 Calcula diferença em dias-calendário no fuso de Fortaleza
+// (evita bug de fuso horário que mostrava "1 dia" em vez de "2 dias")
+function calcularDiasCalendario(dataEventoISO) {
+  // Formata HOJE (em Fortaleza) como YYYY-MM-DD
+  const hojeStr = new Date().toLocaleDateString("en-CA", { timeZone: "America/Fortaleza" });
+  // Formata o dia do EVENTO (em Fortaleza) como YYYY-MM-DD
+  const eventoStr = new Date(dataEventoISO).toLocaleDateString("en-CA", { timeZone: "America/Fortaleza" });
+  // Converte pra meio-dia UTC (evita bugs de fuso na subtração)
+  const hoje = new Date(hojeStr + "T12:00:00Z");
+  const evento = new Date(eventoStr + "T12:00:00Z");
+  // Diferença em dias
+  return Math.round((evento - hoje) / (1000 * 60 * 60 * 24));
+}
+
 function atualizarTimersContagem() {
   const cards = document.querySelectorAll(".contagem-card[data-data]");
   const agora = Date.now();
   cards.forEach((card) => {
-    const data = new Date(card.dataset.data).getTime();
+    const dataISO = card.dataset.data;
+    const data = new Date(dataISO).getTime();
     const diff = Math.max(0, data - agora);
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    // 🆕 Usa dias-calendário (correto), não horas corridas
+    const dias = Math.max(0, calcularDiasCalendario(dataISO));
+
+    // Horas/min/seg restantes até a hora exata do evento (tempo real)
     const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const min = Math.floor((diff / (1000 * 60)) % 60);
     const seg = Math.floor((diff / 1000) % 60);
+
     const timer = card.querySelector(".contagem-timer");
     if (!timer) return;
     const elDias = timer.querySelector('[data-tipo="dias"]');
