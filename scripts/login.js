@@ -2905,23 +2905,35 @@ function atualizarContagemRegressiva(eventos) {
   if (!grid) return;
   const agora = Date.now();
   const em30dias = agora + 30 * 24 * 60 * 60 * 1000;
+
+  // 🆕 Usa startStr (data original correta) em vez de start (que sofre fuso)
   const proximos = (eventos || []).map((ev) => {
-    const inicio = ev.start instanceof Date ? ev.start : new Date(ev.start);
-    return { titulo: ev.title || "Evento", data: inicio };
-  }).filter((e) => e.data.getTime() >= agora && e.data.getTime() <= em30dias)
+    const dataStr = ev.startStr || (ev.start instanceof Date ? ev.start.toISOString() : ev.start);
+    // Constrói Date pro filtro/ordenação (meio-dia local pra evitar bug)
+    let inicio;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dataStr)) {
+      inicio = new Date(dataStr + "T12:00:00");
+    } else {
+      inicio = ev.start instanceof Date ? ev.start : new Date(ev.start);
+    }
+    return { titulo: ev.title || "Evento", data: inicio, dataStr };
+  }).filter((e) => e.data.getTime() >= agora - 12 * 60 * 60 * 1000 && e.data.getTime() <= em30dias)
     .sort((a, b) => a.data - b.data).slice(0, 4);
+
   if (proximos.length === 0) {
     grid.innerHTML = `<div class="contagem-vazio"><i class="fa-regular fa-calendar"></i><p data-i18n="contagem_vazio">Nenhum evento próximo nos próximos 30 dias.</p></div>`;
     if (__contagemInterval) clearInterval(__contagemInterval);
     return;
   }
+
   grid.innerHTML = proximos.map((ev, i) => {
     const diffMs = ev.data.getTime() - agora;
     const diffHoras = diffMs / (1000 * 60 * 60);
     let classe = "";
     if (diffHoras < 24) classe = "urgente";
     else if (diffHoras < 72) classe = "proximo";
-    return `<div class="contagem-card ${classe}" data-index="${i}" data-data="${ev.data.toISOString()}">
+    // 🆕 data-data usa startStr (original), não ISO
+    return `<div class="contagem-card ${classe}" data-index="${i}" data-data="${ev.dataStr}">
       <div class="contagem-titulo">${escaparHTML(ev.titulo)}</div>
       <div class="contagem-timer" id="timer-${i}">
         <div class="contagem-bloco"><span class="contagem-num" data-tipo="dias">0</span><span class="contagem-label" data-i18n="contagem_dias">dias</span></div>
@@ -2929,26 +2941,48 @@ function atualizarContagemRegressiva(eventos) {
         <div class="contagem-bloco"><span class="contagem-num" data-tipo="min">00</span><span class="contagem-label" data-i18n="contagem_min">min</span></div>
         <div class="contagem-bloco"><span class="contagem-num" data-tipo="seg">00</span><span class="contagem-label" data-i18n="contagem_seg">seg</span></div>
       </div>
-      <div class="contagem-data"><i class="fa-regular fa-calendar-check"></i>${ev.data.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}</div>
+      <div class="contagem-data"><i class="fa-regular fa-calendar-check"></i>${formatarDataPtBR(ev.dataStr)}</div>
     </div>`;
   }).join("");
+
   if (typeof aplicarTraducoes === "function") aplicarTraducoes();
   if (__contagemInterval) clearInterval(__contagemInterval);
   atualizarTimersContagem();
   __contagemInterval = setInterval(atualizarTimersContagem, 1000);
 }
 
-// 🆕 Calcula diferença em dias-calendário no fuso de Fortaleza
-// (evita bug de fuso horário que mostrava "1 dia" em vez de "2 dias")
+// 🆕 Formata data em pt-BR no fuso de Fortaleza
+// Aceita "YYYY-MM-DD" (all-day) ou ISO com hora
+function formatarDataPtBR(dataStr) {
+  if (!dataStr) return "";
+  // All-day: "YYYY-MM-DD"
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dataStr)) {
+    const [ano, mes, dia] = dataStr.split("-");
+    const meses = ["janeiro","fevereiro","março","abril","maio","junho",
+                   "julho","agosto","setembro","outubro","novembro","dezembro"];
+    return `${dia} de ${meses[parseInt(mes, 10) - 1]} de ${ano}`;
+  }
+  // Com hora: ISO
+  return new Date(dataStr).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    timeZone: "America/Fortaleza",
+  });
+}
+
 function calcularDiasCalendario(dataEventoISO) {
-  // Formata HOJE (em Fortaleza) como YYYY-MM-DD
+  if (!dataEventoISO) return 0;
   const hojeStr = new Date().toLocaleDateString("en-CA", { timeZone: "America/Fortaleza" });
-  // Formata o dia do EVENTO (em Fortaleza) como YYYY-MM-DD
-  const eventoStr = new Date(dataEventoISO).toLocaleDateString("en-CA", { timeZone: "America/Fortaleza" });
-  // Converte pra meio-dia UTC (evita bugs de fuso na subtração)
+  let eventoStr;
+  // 🆕 Aceita tanto "YYYY-MM-DD" quanto ISO completo
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dataEventoISO)) {
+    eventoStr = dataEventoISO;
+  } else {
+    eventoStr = new Date(dataEventoISO).toLocaleDateString("en-CA", { timeZone: "America/Fortaleza" });
+  }
   const hoje = new Date(hojeStr + "T12:00:00Z");
   const evento = new Date(eventoStr + "T12:00:00Z");
-  // Diferença em dias
   return Math.round((evento - hoje) / (1000 * 60 * 60 * 24));
 }
 
