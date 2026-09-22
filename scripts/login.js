@@ -2936,7 +2936,7 @@ function atualizarContagemRegressiva(eventos) {
       <div class="contagem-timer" id="timer-${i}">
         <div class="contagem-bloco">
           <span class="contagem-num" data-tipo="dias">0</span>
-          <span class="contagem-label" data-i18n="contagem_dias">dias</span>
+          <span class="contagem-label" data-tipo="dias">dias</span>
         </div>
       </div>
       <div class="contagem-data"><i class="fa-regular fa-calendar-check"></i>${formatarDataPtBR(ev.dataStr)}</div>
