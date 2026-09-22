@@ -184,10 +184,6 @@ export const CORES_GOOGLE = {
   "11": "#D50000", // Tomate
 };
 
-/**
- * Dado um evento, retorna a cor hex (backgroundColor do Google).
- * Se o evento não tem cor definida, retorna null (frontend usa fallback).
- */
 // 🎨 Cor padrão do Google Calendar (azul "Peacock").
 // Se o evento tá com essa cor, é porque o usuário NÃO escolheu nenhuma.
 const COR_PADRAO_GOOGLE = "#039be5";

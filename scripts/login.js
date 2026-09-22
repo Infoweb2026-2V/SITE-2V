@@ -1314,24 +1314,10 @@ function corDoEvento(titulo, eventoId) {
   return COR_PADRAO_CALENDARIO;
 }
 
-// 🎨 Legenda mostra só as cores que aparecem nos eventos do Google Calendar
+// 🎨 Legenda removida — o site usa só as cores do Google Calendar
 function renderizarLegendaCalendario() {
   const container = document.getElementById("calendario-legenda");
-  if (!container) return;
-
-  // Pega as cores únicas dos eventos do cache
-  const cores = new Set(Object.values(gcalCoresCache));
-
-  if (cores.size === 0) {
-    container.innerHTML = "";
-    return;
-  }
-
-  container.innerHTML = Array.from(cores).map(function (cor) {
-    return `<div class="legenda-item">
-      <span class="legenda-cor" style="background:${cor}"></span>
-    </div>`;
-  }).join("");
+  if (container) container.innerHTML = "";
 }
 
 // ==========================================
