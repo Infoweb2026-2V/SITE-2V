@@ -1299,6 +1299,16 @@ async function carregarCoresGoogle() {
   }
 }
 
+// ==========================================
+// 🎨 Pinta um elemento de evento do calendário
+// ==========================================
+function pintarElementoEvento(el, titulo, eventoId) {
+  var cor = corDoEvento(titulo, eventoId);
+  el.style.setProperty("background-color", cor, "important");
+  el.style.setProperty("border-color", cor, "important");
+  el.style.setProperty("color", "#ffffff", "important");
+}
+
 // 🎨 Retorna a cor do evento
 // Prioridade:
 //   1. Cor manual do Google Calendar (se o evento foi cadastrado com cor)
