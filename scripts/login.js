@@ -1284,7 +1284,7 @@ const COR_PADRAO_CALENDARIO = { cor: "#8b5edd", textoKey: "cal_outros" };
 // Chama /api/gcal/cores uma vez. O backend tem cache de 5 min.
 async function carregarCoresGoogle() {
   try {
-    const r = await fetch("/api/gcal/cores");
+    const r = await fetch("/api/gcal?tipo=cores");
     if (!r.ok) {
       console.warn("[gcal] erro ao buscar cores:", r.status);
       return;
