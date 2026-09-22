@@ -2990,7 +2990,20 @@ function atualizarTimersContagem() {
     const dataISO = card.dataset.data;
     const dias = Math.max(0, calcularDiasCalendario(dataISO));
     const elDias = card.querySelector('[data-tipo="dias"]');
-    if (elDias) elDias.textContent = dias;
+    const elLabel = card.querySelector('.contagem-label[data-tipo="dias"]') 
+                 || card.querySelector(".contagem-label");
+    if (!elDias) return;
+
+    if (dias === 0) {
+      elDias.textContent = "HOJE";
+      if (elLabel) elLabel.textContent = "";
+    } else if (dias === 1) {
+      elDias.textContent = "1";
+      if (elLabel) elLabel.textContent = "dia";
+    } else {
+      elDias.textContent = dias;
+      if (elLabel) elLabel.textContent = "dias";
+    }
   });
 }
 
