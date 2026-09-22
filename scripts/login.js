@@ -2906,13 +2906,11 @@ function atualizarContagemRegressiva(eventos) {
   const agora = Date.now();
   const em30dias = agora + 30 * 24 * 60 * 60 * 1000;
 
-  // 🆕 Usa startStr (data original correta) em vez de start (que sofre fuso)
   const proximos = (eventos || []).map((ev) => {
     const dataStr = ev.startStr || (ev.start instanceof Date ? ev.start.toISOString() : ev.start);
-    // Constrói Date pro filtro/ordenação (meio-dia local pra evitar bug)
     let inicio;
     if (/^\d{4}-\d{2}-\d{2}$/.test(dataStr)) {
-      inicio = new Date(dataStr + "T12:00:00");
+      inicio = new Date(dataStr + "T12:00:00-03:00");
     } else {
       inicio = ev.start instanceof Date ? ev.start : new Date(ev.start);
     }
@@ -2932,14 +2930,14 @@ function atualizarContagemRegressiva(eventos) {
     let classe = "";
     if (diffHoras < 24) classe = "urgente";
     else if (diffHoras < 72) classe = "proximo";
-    // 🆕 data-data usa startStr (original), não ISO
+    // 🆕 Só o bloco de "dias" (evento all-day não precisa de horas/min/seg)
     return `<div class="contagem-card ${classe}" data-index="${i}" data-data="${ev.dataStr}">
       <div class="contagem-titulo">${escaparHTML(ev.titulo)}</div>
       <div class="contagem-timer" id="timer-${i}">
-        <div class="contagem-bloco"><span class="contagem-num" data-tipo="dias">0</span><span class="contagem-label" data-i18n="contagem_dias">dias</span></div>
-        <div class="contagem-bloco"><span class="contagem-num" data-tipo="horas">00</span><span class="contagem-label" data-i18n="contagem_horas">horas</span></div>
-        <div class="contagem-bloco"><span class="contagem-num" data-tipo="min">00</span><span class="contagem-label" data-i18n="contagem_min">min</span></div>
-        <div class="contagem-bloco"><span class="contagem-num" data-tipo="seg">00</span><span class="contagem-label" data-i18n="contagem_seg">seg</span></div>
+        <div class="contagem-bloco">
+          <span class="contagem-num" data-tipo="dias">0</span>
+          <span class="contagem-label" data-i18n="contagem_dias">dias</span>
+        </div>
       </div>
       <div class="contagem-data"><i class="fa-regular fa-calendar-check"></i>${formatarDataPtBR(ev.dataStr)}</div>
     </div>`;
@@ -2948,7 +2946,7 @@ function atualizarContagemRegressiva(eventos) {
   if (typeof aplicarTraducoes === "function") aplicarTraducoes();
   if (__contagemInterval) clearInterval(__contagemInterval);
   atualizarTimersContagem();
-  __contagemInterval = setInterval(atualizarTimersContagem, 1000);
+  __contagemInterval = setInterval(atualizarTimersContagem, 60000);
 }
 
 // 🆕 Formata data em pt-BR no fuso de Fortaleza
@@ -2988,30 +2986,11 @@ function calcularDiasCalendario(dataEventoISO) {
 
 function atualizarTimersContagem() {
   const cards = document.querySelectorAll(".contagem-card[data-data]");
-  const agora = Date.now();
   cards.forEach((card) => {
     const dataISO = card.dataset.data;
-    const data = new Date(dataISO).getTime();
-    const diff = Math.max(0, data - agora);
-
-    // 🆕 Usa dias-calendário (correto), não horas corridas
     const dias = Math.max(0, calcularDiasCalendario(dataISO));
-
-    // Horas/min/seg restantes até a hora exata do evento (tempo real)
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const min = Math.floor((diff / (1000 * 60)) % 60);
-    const seg = Math.floor((diff / 1000) % 60);
-
-    const timer = card.querySelector(".contagem-timer");
-    if (!timer) return;
-    const elDias = timer.querySelector('[data-tipo="dias"]');
-    const elHoras = timer.querySelector('[data-tipo="horas"]');
-    const elMin = timer.querySelector('[data-tipo="min"]');
-    const elSeg = timer.querySelector('[data-tipo="seg"]');
+    const elDias = card.querySelector('[data-tipo="dias"]');
     if (elDias) elDias.textContent = dias;
-    if (elHoras) elHoras.textContent = String(horas).padStart(2, "0");
-    if (elMin) elMin.textContent = String(min).padStart(2, "0");
-    if (elSeg) elSeg.textContent = String(seg).padStart(2, "0");
   });
 }
 
