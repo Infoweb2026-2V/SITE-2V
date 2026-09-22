@@ -1275,8 +1275,8 @@ const COR_PADRAO_CALENDARIO = "#8b5edd";
 // Pra mudar, edita aqui + atualiza no Google Calendar
 const MATERIAS = [
   { nome: "Matemática",  cor: "#D50000" }, // Tomate
-  { nome: "Geografia",   cor: "#F6BF26" }, // Manga
-  { nome: "Química",     cor: "#7BDCB5" }, // Pistache
+  { nome: "Geografia",   cor: "#F6BF26" }, // Banana (era Manga)
+  { nome: "Química",     cor: "#0B8043" }, // Manjericão (era Pistache)
   { nome: "Português",   cor: "#3F51B5" }, // Mirtilo
   { nome: "Autoria",     cor: "#8E24AA" }, // Uva
   { nome: "Sociologia",  cor: "#E67C73" }, // Flamingo
