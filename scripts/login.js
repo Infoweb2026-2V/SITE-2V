@@ -1271,6 +1271,17 @@ if ("serviceWorker" in navigator) {
 // 🎨 Cor neutra única pra eventos sem cor escolhida no Google Calendar
 const COR_PADRAO_CALENDARIO = "#8b5edd";
 
+// 🎨 Categorias de matéria (cores oficiais do Google Calendar)
+// Pra mudar, edita aqui + atualiza no Google Calendar
+const MATERIAS = [
+  { nome: "Matemática",  cor: "#D50000" }, // Tomate
+  { nome: "Geografia",   cor: "#F6BF26" }, // Manga
+  { nome: "Química",     cor: "#7BDCB5" }, // Pistache
+  { nome: "Português",   cor: "#3F51B5" }, // Mirtilo
+  { nome: "Autoria",     cor: "#8E24AA" }, // Uva
+  { nome: "Sociologia",  cor: "#E67C73" }, // Flamingo
+];
+
 // ==========================================
 // 🎨 GCAL — Carrega cores dos eventos do Google Calendar
 // ==========================================
@@ -1314,10 +1325,16 @@ function corDoEvento(titulo, eventoId) {
   return COR_PADRAO_CALENDARIO;
 }
 
-// 🎨 Legenda removida — o site usa só as cores do Google Calendar
+// 🎨 Legenda das categorias de matéria (cores fixas do Google Calendar)
 function renderizarLegendaCalendario() {
   const container = document.getElementById("calendario-legenda");
-  if (container) container.innerHTML = "";
+  if (!container) return;
+  container.innerHTML = MATERIAS.map(function (m) {
+    return `<div class="legenda-item">
+      <span class="legenda-cor" style="background:${m.cor}"></span>
+      <span class="legenda-texto">${escaparHTML(m.nome)}</span>
+    </div>`;
+  }).join("");
 }
 
 // ==========================================
