@@ -1268,15 +1268,8 @@ if ("serviceWorker" in navigator) {
 // ==========================================
 // 🎨 REGRAS DE CORES DO CALENDÁRIO
 // ==========================================
-const REGRAS_CORES_CALENDARIO = [
-  { regex: /prova|avalia|exame|teste/i, cor: "#ff4757", textoKey: "cal_provas" },
-  { regex: /trabalho|projeto|entrega|lista|seminario|seminário/i, cor: "#f59e0b", textoKey: "cal_trabalhos" },
-  { regex: /feriado|recesso|f[eé]rias|ponto facultativo/i, cor: "#10b981", textoKey: "cal_feriados" },
-  { regex: /reuni[aã]o|aula|encontro|palestra/i, cor: "#7c3aed", textoKey: "cal_reunioes" },
-  { regex: /jogo|esporte|campeonato|torneio/i, cor: "#06b6d4", textoKey: "cal_esportes" },
-  { regex: /festa|evento|apresenta|show/i, cor: "#ec4899", textoKey: "cal_festas" },
-];
-const COR_PADRAO_CALENDARIO = { cor: "#8b5edd", textoKey: "cal_outros" };
+// 🎨 Cor neutra única pra eventos sem cor escolhida no Google Calendar
+const COR_PADRAO_CALENDARIO = "#8b5edd";
 
 // ==========================================
 // 🎨 GCAL — Carrega cores dos eventos do Google Calendar
@@ -1293,6 +1286,10 @@ async function carregarCoresGoogle() {
     if (dados.sucesso && dados.cores) {
       gcalCoresCache = dados.cores;
       console.log("[gcal] cores carregadas:", Object.keys(dados.cores).length, "eventos");
+      // 🆕 Re-renderiza a legenda com as cores carregadas
+      if (typeof renderizarLegendaCalendario === "function") {
+        renderizarLegendaCalendario();
+      }
     }
   } catch (e) {
     console.warn("[gcal] erro:", e.message);
@@ -1309,33 +1306,31 @@ function pintarElementoEvento(el, titulo, eventoId) {
   el.style.setProperty("color", "#ffffff", "important");
 }
 
-// 🎨 Retorna a cor do evento
-// Prioridade:
-//   1. Cor manual do Google Calendar (se o evento foi cadastrado com cor)
-//   2. Sistema por título (regex)
-//   3. Cor padrão (roxo)
+// 🎨 Só usa a cor do Google. Sem cor → cor neutra.
 function corDoEvento(titulo, eventoId) {
-  // 1️⃣ Cor manual do Google Calendar
   if (eventoId && gcalCoresCache[eventoId]) {
     return gcalCoresCache[eventoId];
   }
-
-  // 2️⃣ Sistema por título
-  var t2 = String(titulo || "").toLowerCase();
-  for (var i = 0; i < REGRAS_CORES_CALENDARIO.length; i++) {
-    if (REGRAS_CORES_CALENDARIO[i].regex.test(t2)) return REGRAS_CORES_CALENDARIO[i].cor;
-  }
-
-  // 3️⃣ Fallback
-  return COR_PADRAO_CALENDARIO.cor;
+  return COR_PADRAO_CALENDARIO;
 }
 
+// 🎨 Legenda mostra só as cores que aparecem nos eventos do Google Calendar
 function renderizarLegendaCalendario() {
-  var container = document.getElementById("calendario-legenda");
+  const container = document.getElementById("calendario-legenda");
   if (!container) return;
-  var todas = REGRAS_CORES_CALENDARIO.concat([COR_PADRAO_CALENDARIO]);
-  container.innerHTML = todas.map(function (item) {
-    return `<div class="legenda-item"><span class="legenda-cor" style="background:${item.cor}"></span><span class="legenda-texto">${escaparHTML(t(item.textoKey))}</span></div>`;
+
+  // Pega as cores únicas dos eventos do cache
+  const cores = new Set(Object.values(gcalCoresCache));
+
+  if (cores.size === 0) {
+    container.innerHTML = "";
+    return;
+  }
+
+  container.innerHTML = Array.from(cores).map(function (cor) {
+    return `<div class="legenda-item">
+      <span class="legenda-cor" style="background:${cor}"></span>
+    </div>`;
   }).join("");
 }
 

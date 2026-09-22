@@ -188,14 +188,24 @@ export const CORES_GOOGLE = {
  * Dado um evento, retorna a cor hex (backgroundColor do Google).
  * Se o evento não tem cor definida, retorna null (frontend usa fallback).
  */
+// 🎨 Cor padrão do Google Calendar (azul "Peacock").
+// Se o evento tá com essa cor, é porque o usuário NÃO escolheu nenhuma.
+const COR_PADRAO_GOOGLE = "#039be5";
+
 export function corDoEvento(evento) {
-  // Caso 1: a API já manda backgroundColor direto (mais comum em all-day)
+  // Caso 1: a API mandou backgroundColor direto
   if (evento.backgroundColor && /^#[0-9a-f]{6}$/i.test(evento.backgroundColor)) {
+    // Ignora a cor padrão (usuário não escolheu nada)
+    if (evento.backgroundColor.toLowerCase() === COR_PADRAO_GOOGLE) {
+      return null;
+    }
     return evento.backgroundColor;
   }
 
   // Caso 2: só tem colorId — mapeia
   if (evento.colorId && CORES_GOOGLE[evento.colorId]) {
+    // colorId 7 = azul padrão. Ignora.
+    if (evento.colorId === "7") return null;
     return CORES_GOOGLE[evento.colorId];
   }
 
