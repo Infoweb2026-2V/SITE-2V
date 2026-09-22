@@ -587,6 +587,9 @@ let __salaDadosCarregados = false;
 
 window.usuarioLogado = { nome: "", matricula: "", foto: "", fotoOriginal: "" };
 let bancoDeRecados = [];
+// 🎨 Cache de cores dos eventos do Google Calendar
+// Formato: { "eventoId": "#hex", ... }
+let gcalCoresCache = {};
 let bancoDeCargos = {};  // 🆕 cache de cargos por matrícula
 let bancoDePerfis = [];
 let filtroRecadoTexto = "";
@@ -1275,11 +1278,45 @@ const REGRAS_CORES_CALENDARIO = [
 ];
 const COR_PADRAO_CALENDARIO = { cor: "#8b5edd", textoKey: "cal_outros" };
 
-function corDoEvento(titulo) {
+// ==========================================
+// 🎨 GCAL — Carrega cores dos eventos do Google Calendar
+// ==========================================
+// Chama /api/gcal/cores uma vez. O backend tem cache de 5 min.
+async function carregarCoresGoogle() {
+  try {
+    const r = await fetch("/api/gcal/cores");
+    if (!r.ok) {
+      console.warn("[gcal] erro ao buscar cores:", r.status);
+      return;
+    }
+    const dados = await r.json();
+    if (dados.sucesso && dados.cores) {
+      gcalCoresCache = dados.cores;
+      console.log("[gcal] cores carregadas:", Object.keys(dados.cores).length, "eventos");
+    }
+  } catch (e) {
+    console.warn("[gcal] erro:", e.message);
+  }
+}
+
+// 🎨 Retorna a cor do evento
+// Prioridade:
+//   1. Cor manual do Google Calendar (se o evento foi cadastrado com cor)
+//   2. Sistema por título (regex)
+//   3. Cor padrão (roxo)
+function corDoEvento(titulo, eventoId) {
+  // 1️⃣ Cor manual do Google Calendar
+  if (eventoId && gcalCoresCache[eventoId]) {
+    return gcalCoresCache[eventoId];
+  }
+
+  // 2️⃣ Sistema por título
   var t2 = String(titulo || "").toLowerCase();
   for (var i = 0; i < REGRAS_CORES_CALENDARIO.length; i++) {
     if (REGRAS_CORES_CALENDARIO[i].regex.test(t2)) return REGRAS_CORES_CALENDARIO[i].cor;
   }
+
+  // 3️⃣ Fallback
   return COR_PADRAO_CALENDARIO.cor;
 }
 
@@ -3532,46 +3569,59 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     document.querySelectorAll(".is-authenticated").forEach(function (el) { el.classList.remove("is-hidden"); });
     carregarPeriodosNotas();
-    var calendarEl = document.getElementById("calendar");
+    carregarCoresGoogle();  // 🆕 carrega as cores do Google Calendar
+        var calendarEl = document.getElementById("calendar");
     if (calendarEl && typeof FullCalendar !== "undefined") {
-      function pintarElementoEvento(el, titulo) {
-        var cor = corDoEvento(titulo);
-        el.style.setProperty("background-color", cor, "important");
-        el.style.setProperty("border-color", cor, "important");
-        el.style.setProperty("color", "#ffffff", "important");
-      }
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        locale: obterIdiomaAtual(),
-        initialDate: "2026-09-01",
-        validRange: { start: "2026-09-01", end: "2026-12-31" },
-        timeZone: "America/Fortaleza",
-        googleCalendarApiKey: "AIzaSyB9XFKFwtZNQJrN2Kh7UPZxraPXEwqFytw",
-        events: "acb20a08d58749d48304dbda5c87bfb7f0671483ecc4ed942683ad5a1307e78d@group.calendar.google.com",
-        eventDidMount: function (info) { pintarElementoEvento(info.el, info.event.title); },
-        eventsSet: function (eventos) {
-          renderizarProximosEventos(eventos);
-          setTimeout(function () {
-            document.querySelectorAll(".fc-event").forEach(function (el) { pintarElementoEvento(el, el.innerText || ""); });
-          }, 50);
-        },
-        eventClick: function (arg) {
-          if (arg.event.url) {
-            window.open(arg.event.url, "_blank");
-            arg.jsEvent.preventDefault();
-          }
-        },
-      });
-      calendar.render();
-
-      var observer = new MutationObserver(function () {
-        document.querySelectorAll(".fc-event").forEach(function (el) {
-          var texto = el.innerText || "";
-          var cor = corDoEvento(texto);
-          if (el.style.getPropertyValue("background-color") !== cor) pintarElementoEvento(el, texto);
+      // 🆕 Espera as cores carregarem ANTES de renderizar o calendário
+      carregarCoresGoogle().then(function () {
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          locale: obterIdiomaAtual(),
+          initialDate: "2026-09-01",
+          validRange: { start: "2026-09-01", end: "2026-12-31" },
+          timeZone: "America/Fortaleza",
+          googleCalendarApiKey: "AIzaSyB9XFKFwtZNQJrN2Kh7UPZxraPXEwqFytw",
+          events: "acb20a08d58749d48304dbda5c87bfb7f0671483ecc4ed942683ad5a1307e78d@group.calendar.google.com",
+          eventDidMount: function (info) {
+            pintarElementoEvento(info.el, info.event.title, info.event.id);
+          },
+          eventsSet: function (eventos) {
+            renderizarProximosEventos(eventos);
+            setTimeout(function () {
+              document.querySelectorAll(".fc-event").forEach(function (el) {
+                var texto = el.innerText || "";
+                var ev = eventos.find(function (e) { return (e.title || "") === texto; });
+                var id = ev ? ev.id : null;
+                pintarElementoEvento(el, texto, id);
+              });
+            }, 50);
+          },
+          eventClick: function (arg) {
+            if (arg.event.url) {
+              window.open(arg.event.url, "_blank");
+              arg.jsEvent.preventDefault();
+            }
+          },
         });
+        calendar.render();
+
+        var observer = new MutationObserver(function () {
+          var eventos = calendar.getEvents();
+          document.querySelectorAll(".fc-event").forEach(function (el) {
+            var texto = el.innerText || "";
+            var ev = eventos.find(function (e) { return (e.title || "") === texto; });
+            var id = ev ? ev.id : null;
+            var cor = corDoEvento(texto, id);
+            if (el.style.getPropertyValue("background-color") !== cor) {
+              pintarElementoEvento(el, texto, id);
+            }
+          });
+        });
+        observer.observe(calendarEl, { childList: true, subtree: true, attributes: true, attributeFilter: ["style"] });
+
+        // 🆕 Guarda o calendar numa variável global (se quiser usar em outro lugar)
+        window.__calendar = calendar;
       });
-      observer.observe(calendarEl, { childList: true, subtree: true, attributes: true, attributeFilter: ["style"] });
     }
     var scope = suap.getToken().getScope();
     suap.getResource(scope, function (dados_suap) {
