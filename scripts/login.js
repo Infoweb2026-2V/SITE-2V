@@ -1317,11 +1317,23 @@ function pintarElementoEvento(el, titulo, eventoId) {
   el.style.setProperty("color", "#ffffff", "important");
 }
 
-// 🎨 Só usa a cor do Google. Sem cor → cor neutra.
+// 🎨 Cor da Química (fallback por título — Sálvia não é exposta pela API)
+const COR_QUIMICA = "#7BDCB5";
+
+// 🎨 Só usa a cor do Google. Sem cor → tenta pelo título. Sem título → neutra.
 function corDoEvento(titulo, eventoId) {
+  // 1️⃣ Cor do Google Calendar (prioridade)
   if (eventoId && gcalCoresCache[eventoId]) {
     return gcalCoresCache[eventoId];
   }
+
+  // 2️⃣ Fallback específico: Química (e derivados)
+  var t2 = String(titulo || "").toLowerCase();
+  if (/\bqu[ií]mica?\b/.test(t2)) {
+    return COR_QUIMICA;
+  }
+
+  // 3️⃣ Cor neutra
   return COR_PADRAO_CALENDARIO;
 }
 
